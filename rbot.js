@@ -546,12 +546,13 @@ botReply(['#struggleplate'], [
     'http://i.imgur.com/bRglqp4.jpg',
     'http://i.imgur.com/wAEH2nA.jpg',
     'http://i.imgur.com/sW7QxJx.jpg',
-    'http://38.media.tumblr.com/d04494b57e344367e55bbc2fd357f6fa/tumblr_n9b5pyRSQm1rwt6qvo3_400.jpg'
+    'http://38.media.tumblr.com/d04494b57e344367e55bbc2fd357f6fa/tumblr_n9b5pyRSQm1rwt6qvo3_400.jpg',
+    'http://i.ato.la/skitch/cilantrofish_1E5039C0.jpg'
 ]);
 
 // UPDATE: find this fish
 botReply(['#strugglemvp', '#cilantrofish'], [
-    'http://i.ato.la/Q3BS'
+    'http://i.ato.la/skitch/cilantrofish_1E5039C0.jpg'
 ]);
 
 botReply(['#surf'], [
@@ -561,10 +562,6 @@ botReply(['#surf'], [
 // UPDATE: to our Google Hangouts
 botReply(['#zoomitup'], [
     'https://godaddy.zoom.us/j/4572573353'
-]);
-// UPDATE: to our Google Hangouts
-botReply(['#test14'], [
-    'https://www.rover.com/blog/wp-content/uploads/2015/05/dog-candy-junk-food-599x340.jpg'
 ]);
 
 
