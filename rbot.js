@@ -25,7 +25,7 @@
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-# Reaction Bot is a custom slack bot built for (mt)"s UX Team.
+# Reaction Bot is a custom slack bot.
 
 # Run the bot from the command line:
 
