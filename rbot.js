@@ -557,11 +557,6 @@ botReply(["#surf"], [
     "http://cd8ba0b44a15c10065fd-24461f391e20b7336331d5789078af53.r23.cf1.rackcdn.com/baldursgate.vanillaforums.com/FileUpload/2e/36ce2b9454f5917b1333fe5ed06d1c.gif"
 ]);
 
-// UPDATE: to our Google Hangouts
-// botReply(["#zoomitup"], [
-//     "https://godaddy.zoom.us/j/4572573353"
-// ]);
-
 
 /* Helper Functions
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
