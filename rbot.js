@@ -48,8 +48,8 @@ var fullChannelList = [];
 /* Start UX-Bot
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 if (!process.env.TOKEN) {
-    console.log("Error: Please specify token");
-    process.exit(1);
+  console.log("Error: Please specify token");
+  process.exit(1);
 }
 
 //Include your libraries
@@ -62,19 +62,19 @@ var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
 
 //Show Debugging info in CLI?
 var controller = Botkit.slackbot({
-    debug: true,
+  debug: true,
 });
 
 //Start your bot
 var bot = controller.spawn({
-    token: process.env.TOKEN
+  token: process.env.TOKEN
 }).startRTM(function (err, bot) {
 
-    if (err) {
-        throw new Error(err);
-    }
+  if (err) {
+    throw new Error(err);
+  }
 
-    saveSlackInfo(bot);
+  saveSlackInfo(bot);
 
 });
 
@@ -87,10 +87,10 @@ rule.hour = 9;
 rule.minute = 0;
 
 var schedJob = schedule.scheduleJob(rule, function () {
-    bot.say({
-        text: "I need to be awake!",
-        channel: "C1FSDCL1K"
-    });
+  bot.say({
+    text: "I need to be awake!",
+    channel: "C1FSDCL1K"
+  });
 });
 
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
@@ -103,20 +103,20 @@ var schedJob = schedule.scheduleJob(rule, function () {
 /* Show all possible inputs
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 controller.hears(["#bothelp", "#bothelp-long"], "direct_message,direct_mention,mention,message_received,ambient", function (bot, message) {
-    var feed = "";
-    var botResponse = bot.botkit.allKeywords;
-    var _response = "```";
+  var feed = "";
+  var botResponse = bot.botkit.allKeywords;
+  var _response = "```";
 
-    if (message.text == "#bothelp-long") {
-        feed = "\n";
-    }
+  if (message.text == "#bothelp-long") {
+    feed = "\n";
+  }
 
-    for (k in botResponse) {
-        _response += k + "  " + feed;
-    }
+  for (k in botResponse) {
+    _response += k + "  " + feed;
+  }
 
-    _response += "```";
-    bot.reply(message, _response);
+  _response += "```";
+  bot.reply(message, _response);
 });
 
 
@@ -131,204 +131,204 @@ controller.hears(["#bothelp", "#bothelp-long"], "direct_message,direct_mention,m
 
 // #drivetime, #walktime, #biketime
 controller.hears(["#drivetime (.*)", "#walktime (.*)", "#biketime (.*)"], "direct_message,direct_mention,mention,message_received,ambient", function (bot, message) {
-    var reactionAddress = "2110+Main+St,+Santa+Monica,+CA+90405";
-    var _hash = message.text.trimLeft();
-    _hash = _hash.slice(0, message.text.indexOf(" "));
-    var _regExp = new RegExp(_hash + " (.*)", "i");
-    var inputAddress = message.text.match(_regExp);
-    var destinationAddress = inputAddress[1];
-    var encodedDestinationAddress = encodeURIComponent(destinationAddress);
-    var modes = {
-        "#walktime": "walking",
-        "#biketime": "bicycling"
-    };
-    var attch_text = {
-        "#drivetime": ":car: :bus: :truck: :bus: :car:",
-        "#walktime": ":walking: :walking::skin-tone-2: :walking::skin-tone-3: :walking::skin-tone-4: :walking::skin-tone-5:",
-        "#biketime": ":bicyclist: :bicyclist::skin-tone-2: :bicyclist::skin-tone-3: :bicyclist::skin-tone-4: :bicyclist::skin-tone-5:"
-    };
-    var _error = false;
-    var trafficModel = (_hash == "#drivetime") ? "&traffic_model=best_guess" : "";
-    var currentMode = (modes[_hash]) ? "&mode=" + modes[_hash] : "";
-    var apiUrl = "https://maps.googleapis.com/maps/api/directions/json?departure_time=now" + currentMode + trafficModel + "&c&origin=" + reactionAddress + "&destination=" + encodedDestinationAddress + "&key=AIzaSyBjVGPCTLOZvRJfecKKu69n7_WGajNJVTY";
-    var googleMapsUrl = "https://www.google.com/maps/dir/" + reactionAddress + "/" + encodedDestinationAddress;
-    var request = new XMLHttpRequest();
+  var reactionAddress = "2110+Main+St,+Santa+Monica,+CA+90405";
+  var _hash = message.text.trimLeft();
+  _hash = _hash.slice(0, message.text.indexOf(" "));
+  var _regExp = new RegExp(_hash + " (.*)", "i");
+  var inputAddress = message.text.match(_regExp);
+  var destinationAddress = inputAddress[1];
+  var encodedDestinationAddress = encodeURIComponent(destinationAddress);
+  var modes = {
+    "#walktime": "walking",
+    "#biketime": "bicycling"
+  };
+  var attch_text = {
+    "#drivetime": ":car: :bus: :truck: :bus: :car:",
+    "#walktime": ":walking: :walking::skin-tone-2: :walking::skin-tone-3: :walking::skin-tone-4: :walking::skin-tone-5:",
+    "#biketime": ":bicyclist: :bicyclist::skin-tone-2: :bicyclist::skin-tone-3: :bicyclist::skin-tone-4: :bicyclist::skin-tone-5:"
+  };
+  var _error = false;
+  var trafficModel = (_hash == "#drivetime") ? "&traffic_model=best_guess" : "";
+  var currentMode = (modes[_hash]) ? "&mode=" + modes[_hash] : "";
+  var apiUrl = "https://maps.googleapis.com/maps/api/directions/json?departure_time=now" + currentMode + trafficModel + "&c&origin=" + reactionAddress + "&destination=" + encodedDestinationAddress + "&key=AIzaSyBjVGPCTLOZvRJfecKKu69n7_WGajNJVTY";
+  var googleMapsUrl = "https://www.google.com/maps/dir/" + reactionAddress + "/" + encodedDestinationAddress;
+  var request = new XMLHttpRequest();
 
-    request.open("GET", apiUrl, true);
+  request.open("GET", apiUrl, true);
 
-    request.onload = function () {
-        if (request.status >= 200 && request.status < 400) {
-            // Success!
-            var data = JSON.parse(request.responseText);
-            driveTime = getDriveTime(data, _hash);
-            var xTime = _hash.slice(1);
-            var driveTimeOutput = xTime + " to " + destinationAddress + " is " + driveTime;
+  request.onload = function () {
+    if (request.status >= 200 && request.status < 400) {
+      // Success!
+      var data = JSON.parse(request.responseText);
+      driveTime = getDriveTime(data, _hash);
+      var xTime = _hash.slice(1);
+      var driveTimeOutput = xTime + " to " + destinationAddress + " is " + driveTime;
 
-            // To Do - convert time from googles output (5 hours, 21 mins - 1 hour, 1 minute - 20 minutes) to plain old minutes
-            var driveTimeMinutes = driveTime;
-            // To Do - convert time from googles output (5 hours, 21 mins - 1 hour, 1 minute - 20 minutes) to plain old minutes
+      // To Do - convert time from googles output (5 hours, 21 mins - 1 hour, 1 minute - 20 minutes) to plain old minutes
+      var driveTimeMinutes = driveTime;
+      // To Do - convert time from googles output (5 hours, 21 mins - 1 hour, 1 minute - 20 minutes) to plain old minutes
 
-            if (driveTimeMinutes <= "30") {
-                var driveTimeImages = ["http://i.giphy.com/YlQQYUIEAZ76o.gif", "http://i.giphy.com/IKhGMGrXm0C6Q.gif"];
-            } else if (driveTimeMinutes <= "60") {
-                var driveTimeImages = ["http://i.giphy.com/l6mxLLvfadIQw.gif"];
-            } else {
-                var driveTimeImages = ["http://i.giphy.com/mrpNRAKIALT5C.gif"];
-            }
+      if (driveTimeMinutes <= "30") {
+        var driveTimeImages = ["http://i.giphy.com/YlQQYUIEAZ76o.gif", "http://i.giphy.com/IKhGMGrXm0C6Q.gif"];
+      } else if (driveTimeMinutes <= "60") {
+        var driveTimeImages = ["http://i.giphy.com/l6mxLLvfadIQw.gif"];
+      } else {
+        var driveTimeImages = ["http://i.giphy.com/mrpNRAKIALT5C.gif"];
+      }
 
-            var driveTimeImage = driveTimeImages[Math.floor(Math.random() * driveTimeImages.length)];
+      var driveTimeImage = driveTimeImages[Math.floor(Math.random() * driveTimeImages.length)];
 
-            bot.reply(message, "" + driveTimeOutput + " :car: :bus: :bus: :car: " + driveTimeImage + "");
-        } else {
-            // We reached our target server, but it returned an error
-            _error = true;
-        }
-    };
-
-    request.onerror = function () {
-        _error = true;
-    };
-
-    if (_error) {
-        bot.reply(message, xTime + " to " + destinationAddress + " is currently unknown due to an API error. Hopefully you can see it on Google Maps: " + googleMapsUrl);
+      bot.reply(message, "" + driveTimeOutput + " :car: :bus: :bus: :car: " + driveTimeImage + "");
+    } else {
+      // We reached our target server, but it returned an error
+      _error = true;
     }
+  };
 
-    request.send();
+  request.onerror = function () {
+    _error = true;
+  };
+
+  if (_error) {
+    bot.reply(message, xTime + " to " + destinationAddress + " is currently unknown due to an API error. Hopefully you can see it on Google Maps: " + googleMapsUrl);
+  }
+
+  request.send();
 });
 
 function getDriveTime(data, _hash) {
-    var drivetime;
-    var trafficText = (_hash == "#drivetime") ? ". Traffic is not included in this route." : "";
-    if (data.routes[0]) {
-        if (_hash == "#drivetime" && data.routes[0].legs[0].duration_in_traffic) {
-            driveTime = data.routes[0].legs[0].duration_in_traffic.text;
-        } else {
-            if (data.routes[0].legs[0].duration) {
-                driveTime = data.routes[0].legs[0].duration.text + trafficText;
-            } else {
-                driveTime = "not available. Please try another query.";
-            }
-        }
+  var drivetime;
+  var trafficText = (_hash == "#drivetime") ? ". Traffic is not included in this route." : "";
+  if (data.routes[0]) {
+    if (_hash == "#drivetime" && data.routes[0].legs[0].duration_in_traffic) {
+      driveTime = data.routes[0].legs[0].duration_in_traffic.text;
     } else {
-        driveTime = "not available. Please try another more specific query - or a location that\"s not overseas.";
+      if (data.routes[0].legs[0].duration) {
+        driveTime = data.routes[0].legs[0].duration.text + trafficText;
+      } else {
+        driveTime = "not available. Please try another query.";
+      }
     }
+  } else {
+    driveTime = "not available. Please try another more specific query - or a location that\"s not overseas.";
+  }
 
-    return driveTime;
+  return driveTime;
 }
 
 
 // #choppertime
 controller.hears(["#choppertime (.*)"], "direct_message,direct_mention,mention,message_received,ambient", function (bot, message) {
-    // calculation is done in lattitue / longitude
-    mtCoords = {};
-    destCoords = {};
-    mtCoords.lat = "34.0266594";
-    mtCoords.lng = "-118.3794368";
-    var inputAddress = message.text.match(/#choppertime (.*)/i);
-    var destinationAddress = inputAddress[1];
-    var encodedDestinationAddress = encodeURIComponent(destinationAddress);
-    // get destination coords
-    var apiUrl = "https://maps.googleapis.com/maps/api/geocode/json?address=" + encodedDestinationAddress + "&key=AIzaSyBjVGPCTLOZvRJfecKKu69n7_WGajNJVTY";
-    var request = new XMLHttpRequest();
-    request.open("GET", apiUrl, true);
+  // calculation is done in lattitue / longitude
+  mtCoords = {};
+  destCoords = {};
+  mtCoords.lat = "34.0266594";
+  mtCoords.lng = "-118.3794368";
+  var inputAddress = message.text.match(/#choppertime (.*)/i);
+  var destinationAddress = inputAddress[1];
+  var encodedDestinationAddress = encodeURIComponent(destinationAddress);
+  // get destination coords
+  var apiUrl = "https://maps.googleapis.com/maps/api/geocode/json?address=" + encodedDestinationAddress + "&key=AIzaSyBjVGPCTLOZvRJfecKKu69n7_WGajNJVTY";
+  var request = new XMLHttpRequest();
+  request.open("GET", apiUrl, true);
 
-    request.onload = function () {
-        if (request.status >= 200 && request.status < 400) {
-            // Success!
-            var data = JSON.parse(request.responseText);
-            if (data.results[0]) {
-                if (data.results[0].geometry.location) {
-                    destCoords.lat = data.results[0].geometry.location.lat;
-                    destCoords.lng = data.results[0].geometry.location.lng;
+  request.onload = function () {
+    if (request.status >= 200 && request.status < 400) {
+      // Success!
+      var data = JSON.parse(request.responseText);
+      if (data.results[0]) {
+        if (data.results[0].geometry.location) {
+          destCoords.lat = data.results[0].geometry.location.lat;
+          destCoords.lng = data.results[0].geometry.location.lng;
 
-                    distanceAsTheKobeFlies = getDistance(mtCoords, destCoords);
+          distanceAsTheKobeFlies = getDistance(mtCoords, destCoords);
 
-                    // average chopper speed is 240km/h, slow LA choppers migh tbe 200km or so
-                    // source http://phys.org/news/2011-05-eurocopter-x3-world-fastest-copter.html
-                    chopperTimeRaw = distanceAsTheKobeFlies / 200;
+          // average chopper speed is 240km/h, slow LA choppers migh tbe 200km or so
+          // source http://phys.org/news/2011-05-eurocopter-x3-world-fastest-copter.html
+          chopperTimeRaw = distanceAsTheKobeFlies / 200;
 
-                    // add takeoff, up-to-speed, and landing time.. about 8 min = .12 hr
-                    chopperTimeRaw = chopperTimeRaw + .12;
+          // add takeoff, up-to-speed, and landing time.. about 8 min = .12 hr
+          chopperTimeRaw = chopperTimeRaw + .12;
 
-                    // get a pretty time
-                    chopperTimeReadable = getHHMM(chopperTimeRaw);
+          // get a pretty time
+          chopperTimeReadable = getHHMM(chopperTimeRaw);
 
-                    var chopperTimeOutput = "It would take " + chopperTimeReadable + " for Kode Brian to travel to " + destinationAddress;
-                } else {
-                    var chopperTimeOuput = "There was some unknown issue finding the coordinates of your desto.";
-                }
-            } else {
-                var chopperTimeOutput = "No results. Please try another, more specific query.";
-            }
-            bot.reply(message, ":helicopter: :kobe: " + chopperTimeOutput + " :kobe: :helicopter:");
+          var chopperTimeOutput = "It would take " + chopperTimeReadable + " for Kode Brian to travel to " + destinationAddress;
         } else {
-            // We reached our target server, but it returned an error
-            bot.reply(message, "Choppertime to " + destinationAddress + " is currently unknown due to an API error.");
+          var chopperTimeOuput = "There was some unknown issue finding the coordinates of your desto.";
         }
-    };
+      } else {
+        var chopperTimeOutput = "No results. Please try another, more specific query.";
+      }
+      bot.reply(message, ":helicopter: :kobe: " + chopperTimeOutput + " :kobe: :helicopter:");
+    } else {
+      // We reached our target server, but it returned an error
+      bot.reply(message, "Choppertime to " + destinationAddress + " is currently unknown due to an API error.");
+    }
+  };
 
-    request.onerror = function () {
-        bot.reply(message, "Choppertime to " + destinationAddress + " is currently unknown due to an API error.");
-    };
-    request.send();
+  request.onerror = function () {
+    bot.reply(message, "Choppertime to " + destinationAddress + " is currently unknown due to an API error.");
+  };
+  request.send();
 });
 
 
 /* Download real-time images of Earth from the Himawari-8 satellite
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 controller.hears(["#earthnow"], "direct_message,direct_mention,mention,message_received,ambient", function (bot, message) {
-    bot.reply(message, "generating image from Himawari-8 satellite...");
-    himawari({
-        zoom: 1,
-        date: "latest", // Or new Date() or a date string
-        debug: false,
-        infrared: false,
-        outfile: "/usr/share/nginx/html/mt/earth.jpg",
-        parallel: false,
-        skipEmpty: true,
-        timeout: 30000,
-        urls: false,
-        success: function () {
-            // added ms to prevent Slack from caching images. Not like the planet"s view is gonna change much :P
-            bot.reply(message, "http://178.62.225.227/mt/earth.jpg?ms=" + (new Date()).getMilliseconds());
-            // process.exit();
-        },
-        error: function (err) {
-            console.log(err);
-            bot.reply("Satelite Server is probably down.");
-        },
-        chunk: function (info) {
-            console.log(info.outfile + ": " + info.part + "/" + info.total);
-        }
-    });
+  bot.reply(message, "generating image from Himawari-8 satellite...");
+  himawari({
+    zoom: 1,
+    date: "latest", // Or new Date() or a date string
+    debug: false,
+    infrared: false,
+    outfile: "/usr/share/nginx/html/mt/earth.jpg",
+    parallel: false,
+    skipEmpty: true,
+    timeout: 30000,
+    urls: false,
+    success: function () {
+      // added ms to prevent Slack from caching images. Not like the planet"s view is gonna change much :P
+      bot.reply(message, "http://178.62.225.227/mt/earth.jpg?ms=" + (new Date()).getMilliseconds());
+      // process.exit();
+    },
+    error: function (err) {
+      console.log(err);
+      bot.reply("Satelite Server is probably down.");
+    },
+    chunk: function (info) {
+      console.log(info.outfile + ": " + info.part + "/" + info.total);
+    }
+  });
 });
 
 
 /* Get timezones for all Reaction team members
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 controller.hears(["#timezones"], "direct_message,direct_mention,mention,message_received,ambient", function (bot, message) {
-    var losAngeles = moment().tz("America/Los_Angeles").format("hh:mm A") + ": Los Angeles";
-    var connecticut = moment().tz("America/New_York").format("hh:mm A") + ": Connecticut";
-    var lagos = moment().tz("Africa/Lagos").format("hh:mm A") + ": Lagos";
-    var nairobi = moment().tz("Africa/Nairobi").format("hh:mm A") + ": Nairobi";
-    var manila = moment().tz("Asia/Manila").format("hh:mm A") + ": Manila";
+  var losAngeles = moment().tz("America/Los_Angeles").format("hh:mm A") + ": Los Angeles";
+  var connecticut = moment().tz("America/New_York").format("hh:mm A") + ": Connecticut";
+  var lagos = moment().tz("Africa/Lagos").format("hh:mm A") + ": Lagos";
+  var nairobi = moment().tz("Africa/Nairobi").format("hh:mm A") + ": Nairobi";
+  var manila = moment().tz("Asia/Manila").format("hh:mm A") + ": Manila";
 
-    bot.reply(message, "Reaction Team Time Zones");
-    bot.reply(message, losAngeles);
-    bot.reply(message, connecticut);
-    bot.reply(message, lagos);
-    bot.reply(message, nairobi);
-    bot.reply(message, manila);
+  bot.reply(message, "Reaction Team Time Zones");
+  bot.reply(message, losAngeles);
+  bot.reply(message, connecticut);
+  bot.reply(message, lagos);
+  bot.reply(message, nairobi);
+  bot.reply(message, manila);
 });
 
 
 /* Basic custom responses
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 function botReply(hashtags, responses) {
-    controller.hears(hashtags, "direct_message,direct_mention,mention,message_received,ambient", function (bot, message) {
-        var botResponse = responses[Math.floor(Math.random() * responses.length)];
-        bot.reply(message, botResponse);
-    });
+  controller.hears(hashtags, "direct_message,direct_mention,mention,message_received,ambient", function (bot, message) {
+    var botResponse = responses[Math.floor(Math.random() * responses.length)];
+    bot.reply(message, botResponse);
+  });
 }
 
 // Example:
@@ -524,7 +524,8 @@ botReply(["#stabbed"], [
 botReply(["#strugglelunch"], [
     "The Point",
     "Signature Cafe",
-    "An automated order from "Bulan Thai" damn it",
+    "An automated order from "
+  Bulan Thai " damn it",
     "An apple from the basket in the kitchen",
     "Chipotle (RIP)",
     "A swig of Coffee Mate",
@@ -570,69 +571,69 @@ botReply(["#zoomitup"], [
 /*** http://stackoverflow.com/questions/1502590/calculate-distance-between-two-points-in-google-maps-v3 **/
 function getDistance(startCoords, endCoords) {
 
-    var rad = function (x) {
-        return x * Math.PI / 180;
-    };
+  var rad = function (x) {
+    return x * Math.PI / 180;
+  };
 
-    var R = 6378137; // Earth’s mean radius in meters
+  var R = 6378137; // Earth’s mean radius in meters
 
-    var dLat = rad(endCoords.lat - startCoords.lat);
-    var dLong = rad(endCoords.lng - startCoords.lng);
+  var dLat = rad(endCoords.lat - startCoords.lat);
+  var dLong = rad(endCoords.lng - startCoords.lng);
 
-    var a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-        Math.cos(rad(startCoords.lat)) * Math.cos(rad(endCoords.lat)) *
-        Math.sin(dLong / 2) * Math.sin(dLong / 2);
+  var a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+    Math.cos(rad(startCoords.lat)) * Math.cos(rad(endCoords.lat)) *
+    Math.sin(dLong / 2) * Math.sin(dLong / 2);
 
-    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 
-    var d = R * c / 1000;
+  var d = R * c / 1000;
 
-    return d; // returns the distance in kilometers
+  return d; // returns the distance in kilometers
 }
 
 function getHHMM(decimalHours) {
-    var output = "";
-    var hours = Math.floor(decimalHours);
-    var minutes = (Math.floor(decimalHours * 60)) - (hours * 60);
+  var output = "";
+  var hours = Math.floor(decimalHours);
+  var minutes = (Math.floor(decimalHours * 60)) - (hours * 60);
 
-    if (hours == 1) {
-        output += "1 hour, ";
-    } else if (hours > 1) {
-        output += hours + " hours, ";
-    }
-    output += minutes + " minutes";
-    return output;
+  if (hours == 1) {
+    output += "1 hour, ";
+  } else if (hours > 1) {
+    output += hours + " hours, ";
+  }
+  output += minutes + " minutes";
+  return output;
 }
 
 
 function saveSlackInfo(_bot) {
-    // Save Slack Users
-    // @ https://api.slack.com/methods/users.list
-    _bot.api.users.list({}, function (err, response) {
-        if (response.hasOwnProperty("members") && response.ok) {
-            var total = response.members.length;
-            for (var i = 0; i < total; i++) {
-                var member = response.members[i];
-                fullTeamList.push({
-                    name: member.name,
-                    id: member.id
-                });
-            }
-        }
-    });
+  // Save Slack Users
+  // @ https://api.slack.com/methods/users.list
+  _bot.api.users.list({}, function (err, response) {
+    if (response.hasOwnProperty("members") && response.ok) {
+      var total = response.members.length;
+      for (var i = 0; i < total; i++) {
+        var member = response.members[i];
+        fullTeamList.push({
+          name: member.name,
+          id: member.id
+        });
+      }
+    }
+  });
 
-    // Save Slack Channels
-    // @ https://api.slack.com/methods/channels.list
-    _bot.api.channels.list({}, function (err, response) {
-        if (response.hasOwnProperty("channels") && response.ok) {
-            var total = response.channels.length;
-            for (var i = 0; i < total; i++) {
-                var channel = response.channels[i];
-                fullChannelList.push({
-                    name: channel.name,
-                    id: channel.id
-                });
-            }
-        }
-    });
+  // Save Slack Channels
+  // @ https://api.slack.com/methods/channels.list
+  _bot.api.channels.list({}, function (err, response) {
+    if (response.hasOwnProperty("channels") && response.ok) {
+      var total = response.channels.length;
+      for (var i = 0; i < total; i++) {
+        var channel = response.channels[i];
+        fullChannelList.push({
+          name: channel.name,
+          id: channel.id
+        });
+      }
+    }
+  });
 }
