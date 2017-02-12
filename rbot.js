@@ -524,8 +524,7 @@ botReply(["#stabbed"], [
 botReply(["#strugglelunch"], [
     "The Point",
     "Signature Cafe",
-    "An automated order from "
-  Bulan Thai " damn it",
+    "An automated order from Bulan Thai",
     "An apple from the basket in the kitchen",
     "Chipotle (RIP)",
     "A swig of Coffee Mate",
@@ -535,7 +534,6 @@ botReply(["#strugglelunch"], [
     "That weird fish thing from the Point\"s Facebook page"
 ]);
 
-// UPDATE: are this around?
 botReply(["#struggleplate"], [
     "http://2.bp.blogspot.com/-4aTCryIaPY8/TdXkuS41InI/AAAAAAAAGdQ/iKcrrTKoC2o/s1600/DSC06503_2.JPG",
     "http://i.imgur.com/tdUNOYj.jpg",
@@ -551,7 +549,6 @@ botReply(["#struggleplate"], [
     "http://i.ato.la/skitch/cilantrofish_1E5039C0.jpg"
 ]);
 
-// UPDATE: find this fish
 botReply(["#strugglemvp", "#cilantrofish"], [
     "http://i.ato.la/skitch/cilantrofish_1E5039C0.jpg"
 ]);
@@ -561,9 +558,9 @@ botReply(["#surf"], [
 ]);
 
 // UPDATE: to our Google Hangouts
-botReply(["#zoomitup"], [
-    "https://godaddy.zoom.us/j/4572573353"
-]);
+// botReply(["#zoomitup"], [
+//     "https://godaddy.zoom.us/j/4572573353"
+// ]);
 
 
 /* Helper Functions
