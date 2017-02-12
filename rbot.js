@@ -322,6 +322,40 @@ controller.hears(["#timezones"], "direct_message,direct_mention,mention,message_
 });
 
 
+/* Get Stargazers for Reaction Repo
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+controller.hears(["#stargazers"], "direct_message,direct_mention,mention,message_received,ambient", function (bot, message) {
+  var apiUrl = "https://api.github.com/repos/reactioncommerce/reaction";
+  var request = new XMLHttpRequest();
+  request.open("GET", apiUrl, true);
+
+  request.onload = function () {
+    if (request.status >= 200 && request.status < 400) {
+      // Success!
+      var data = JSON.parse(request.responseText);
+      if (data) {
+        if (data.stargazers_count) {
+          var starGazersOutput = data.stargazers_count;
+        } else {
+          var starGazersOuput = "Cannot fetch stargazers";
+        }
+      } else {
+        var starGazersOutput = "Cannot fetch stargazers";
+      }
+      bot.reply(message, ":star: :star: :star2: " + starGazersOutput + " :star2: :star: :star:");
+    } else {
+      // We reached our target server, but it returned an error
+      bot.reply(message, "Cannot fetch stargazers");
+    }
+  };
+
+  request.onerror = function () {
+    bot.reply(message, "Cannot fetch stargazers");
+  };
+  request.send();
+});
+
+
 /* Basic custom responses
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 function botReply(hashtags, responses) {
