@@ -563,7 +563,7 @@ botReply(['#zoomitup'], [
     'https://godaddy.zoom.us/j/4572573353'
 ]);
 // UPDATE: to our Google Hangouts
-botReply(['#test13'], [
+botReply(['#test14'], [
     'https://www.rover.com/blog/wp-content/uploads/2015/05/dog-candy-junk-food-599x340.jpg'
 ]);
 
