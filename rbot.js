@@ -29,9 +29,9 @@
 
 # Run the bot from the command line:
 
-    TOKEN=<slack-api-token> node r-bot.js (for manual restarts/updates)
+    TOKEN=<slack-api-token> node rbot.js (for manual restarts/updates)
     OR
-    TOKEN=<slack-api-token> nodemon r-bot.js (for automatic restarts/updates)
+    TOKEN=<slack-api-token> nodemon rbot.js (for automatic restarts/updates - requires nodemon)
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
