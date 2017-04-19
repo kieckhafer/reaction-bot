@@ -37,6 +37,14 @@
 */
 
 
+// libraries
+var himawari = require("himawari");
+var schedule = require("node-schedule");
+var moment = require("moment-timezone");
+var fullTeamList = [];
+var fullChannelList = [];
+
+
 /* Start UX-Bot
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 if (!process.env.TOKEN) {
@@ -44,14 +52,13 @@ if (!process.env.TOKEN) {
   process.exit(1);
 }
 
-//Libraries
+//Include your libraries
 var Botkit = require("./lib/Botkit.js");
 var os = require("os");
+// Allow jQuery
 var $ = require("jquery");
+// Allow XMLHttpRequest
 var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
-var himawari = require("himawari");
-var schedule = require("node-schedule");
-var moment = require("moment-timezone");
 
 //Show Debugging info in CLI?
 var controller = Botkit.slackbot({
@@ -81,8 +88,8 @@ rule.minute = 0;
 
 var schedJob = schedule.scheduleJob(rule, function () {
   bot.say({
-    text: "I need to be awake! This is an automatic message to keep me ticking.",
-    channel: "C027FB1AF"
+    text: "I need to be awake!",
+    channel: "C1FSDCL1K"
   });
 });
 
