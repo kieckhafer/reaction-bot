@@ -283,14 +283,14 @@ controller.hears(["#earthnow"], "direct_message,direct_mention,mention,message_r
     date: "latest", // Or new Date() or a date string
     debug: false,
     infrared: false,
-    outfile: "/usr/share/nginx/html/mt/earth.jpg",
+    outfile: "/var/www/ato.la/projects/reaction-bot/earth.jpg",
     parallel: false,
     skipEmpty: true,
     timeout: 30000,
     urls: false,
     success: function () {
       // added ms to prevent Slack from caching images. Not like the planet"s view is gonna change much :P
-      bot.reply(message, "http://178.62.225.227/mt/earth.jpg?ms=" + (new Date()).getMilliseconds());
+      bot.reply(message, "http://ato.la/projects/reaction-bot/earth.jpg?ms=" + (new Date()).getMilliseconds());
       // process.exit();
     },
     error: function (err) {
