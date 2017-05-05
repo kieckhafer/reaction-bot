@@ -1,6 +1,6 @@
 # Reaction-Bot - Responding to hashtags one gif at a time
 
-Reaction-Bot is built with [BotKit](https://github.com/howdyai/botkit/blob/master/readme.md).
+Reaction-Bot is a SlackBot built with [BotKit](https://github.com/howdyai/botkit/blob/master/readme.md).
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -27,21 +27,27 @@ Reaction-Bot is built with [BotKit](https://github.com/howdyai/botkit/blob/maste
 
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+## Prerequisites
+
+A Slack API Key is required to use Reaction-Bot. API Keys are created by registering a new Bot integration at https://{your-team-url}.slack.com/apps/manage/custom-integrations. You may need special permissions within your team to create a new Bot integration.
+
 ## Installation
 
 Reaction-Bot is available on Github at https://github.com/kieckhafer/reaction-bot
 
-```bash
+```
 git clone git@github.com:kieckhafer/reaction-bot.git
 ```
 
-After cloning the Git repository, you have to install the node dependencies. Navigate to the root of your cloned repository and use npm to install all necessary dependencies.
-```bash
+After cloning the Git repository, you need to install the node dependencies. Navigate to the root of your cloned repository and use npm to install all necessary dependencies.
+
+```
 npm install
 ```
 
 Use the `--production` flag to skip the installation of devDependencies.
-```bash
+```
 npm install --production
 ```
 
@@ -51,86 +57,86 @@ npm install --production
 
 Reaction-Bot runs in Node.
 
-There are two ways to run Reaction-Bot. The standard way, which requires a restart to incorporate any code changes:
+To run a bare-bones version of Reaction-Bot, use the command line to navigate to the folder where Reaction-Bot lives, and type the following command:
 
-```bash
-token=<token> node rbot.js
+```
+TOKEN=<slack-api-key> node rbot.js
 ```
 
-And the enhanced way, which automatically detects changes to rbot.js and restarts Node with every change (requires [nodemon](https://github.com/remy/nodemon)):
+That's it! Now simply invite the bot user into whichever chat rooms you'd like it to be available in.
 
-```bash
-token=<token> nodemon rbot.js
-```
-
-
+Reaction-Bot can also be initiated using a variety of node process managers such as [nodemon](https://github.com/remy/nodemon), [forever.js](https://github.com/foreverjs/forever), and [PM2](https://github.com/Unitech/pm2).
 
 ## Adding a new call & response
 
 It's easy to create a new call & response - simply replace the KEYWORD and the RESPONSE in the code below.
 
-```javascript
-
+```
 botReply(['#KEYWORD'], [
     'RESPONSE 1'
 ]);
-
 ```
 
 You can also have multiple keywords call the same response.
 
-```javascript
-
+```
 botReply(['#KEYWORD', 'KEYWORD2'], [
     'RESPONSE 1'
 ]);
-
 ```
 
 Want to pull a random response from a list? Cool. You can.
 
-```javascript
-
+```
 botReply(['#KEYWORD'], [
     'RESPONSE 1',
     'RESPONSE 2',
     'RESPONSE 3'
 ]);
-
 ```
-
-Please try and keep rbot.js organized by adding new keywords in alphabetical order.
-
-
-
-## Expanded usage
-
-You can do pretty much anything with [BotKit](http://howdy.ai/botkit/). Feel free to expand on it in any way you want.
-
-
 
 ## What does Reaction-Bot do?
 
 Responds to our various #'s
 
-```bash
+```
 #coffee
 #stabbed
 #struggleplate
 etc.
 ```
 
-Tells you your commute time from Reaction's Santa Monica office
+Tells you your commute time from Reaction's Santa Monica office **
 
-```bash
+```
 #drivetime {address}
 #walktime {address}
 #biketime {address}
 #choppertime {address}
 ```
 
+Displays a live image of Earth from the Himawari-8 satellite ***
+
+```
+#earthnow
+```
+
 See all the commands by asking Reaction-Bot for help
 
-```bash
+```
 #bothelp or #bothelp-long
 ```
+
+** Requires a Google Maps API key to be set as an environmental variable, `MAPS_API`, on startup.
+```
+TOKEN=<slack-api-key> MAPS_API=<google-maps-api-key> node rbot.js
+```
+
+*** Requires a location to save images to, and a URL to view saved images, to be set as environmental variables, `HIMAWARI_OUTFILE` and `HIMAWARI_URL` on startup.
+```
+TOKEN=<slack-api-key> HIMAWARI_OUTFILE=<path-to-local-image> HIMAWARI_URL=<url-of-image> node rbot.js
+```
+
+## Expanded usage
+
+You can do pretty much anything with [BotKit](http://howdy.ai/botkit/). Feel free to expand on it in any way you want.
