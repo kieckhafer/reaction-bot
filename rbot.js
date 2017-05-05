@@ -126,6 +126,10 @@ controller.hears(["#bothelp", "#bothelp-long"], "direct_message,direct_mention,m
  * Google API for
  * drivetime,  walktime, biketime
  * These are all similar, so reusing the same function
+ * To use the maps features, you need a Google Maps API key variable when starting rbot
+ * MAPS_API=<google-maps-api-key>
+ * starting rbot with himawari capabilites:
+ * TOKEN=<slack-api-token> MAPS_API=<google-maps-api-key> node rbot.js
  */
 
 
@@ -150,7 +154,8 @@ controller.hears(["#drivetime (.*)", "#walktime (.*)", "#biketime (.*)"], "direc
   var _error = false;
   var trafficModel = (_hash == "#drivetime") ? "&traffic_model=best_guess" : "";
   var currentMode = (modes[_hash]) ? "&mode=" + modes[_hash] : "";
-  var apiUrl = "https://maps.googleapis.com/maps/api/directions/json?departure_time=now" + currentMode + trafficModel + "&c&origin=" + reactionAddress + "&destination=" + encodedDestinationAddress + "&key=AIzaSyBjVGPCTLOZvRJfecKKu69n7_WGajNJVTY";
+  var apiKey = process.env.MAPS_API;
+  var apiUrl = "https://maps.googleapis.com/maps/api/directions/json?departure_time=now" + currentMode + trafficModel + "&c&origin=" + reactionAddress + "&destination=" + encodedDestinationAddress + "&key=" + apiKey;
   var googleMapsUrl = "https://www.google.com/maps/dir/" + reactionAddress + "/" + encodedDestinationAddress;
   var request = new XMLHttpRequest();
 
@@ -275,9 +280,11 @@ controller.hears(["#choppertime (.*)"], "direct_message,direct_mention,mention,m
 
 
 /* Download real-time images of Earth from the Himawari-8 satellite
- * Images are stored locally on server running rbot
- * outFile path is path to where files are stored on server
- * himawariImageUrl is the URL where the images are publically accessible
+    To use the Himawari-8 satellite imagery feature, you need a few more variables declared when starting rbot
+    HIMAWARI_OUTFILE=<path-to-local-image> (for example, "/var/www/example.com/himawari-images/earth.jpg")
+    HIMAWARI_URL=<url-of-image> (for example, "http://example.com/himawari-images/earth.jpg")
+    Starting rbot with himawari capabilites:
+    TOKEN=<slack-api-token> HIMAWARI_OUTFILE=<path-to-local-image> HIMAWARI_URL=<url-of-image> node rbot.js (for manual restarts/updates)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 controller.hears(["#earthnow"], "direct_message,direct_mention,mention,message_received,ambient", function (bot, message) {
   bot.reply(message, "generating image from Himawari-8 satellite...");
