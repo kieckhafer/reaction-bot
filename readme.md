@@ -106,7 +106,7 @@ Responds to our various #'s
 etc.
 ```
 
-Tells you your commute time from Reaction's Santa Monica office. Reguires a Google Maps API key to be set as an environmental variable on startup. **
+Tells you your commute time from Reaction's Santa Monica office. Requires a Google Maps API key to be set as an environmental variable on startup.
 ```
 TOKEN=<slack-api-key> MAPS_API=<google-maps-api-key> node rbot.js
 ```
