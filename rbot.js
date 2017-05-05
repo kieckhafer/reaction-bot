@@ -275,22 +275,27 @@ controller.hears(["#choppertime (.*)"], "direct_message,direct_mention,mention,m
 
 
 /* Download real-time images of Earth from the Himawari-8 satellite
+ * Images are stored locally on server running rbot
+ * outFile path is path to where files are stored on server
+ * himawariImageUrl is the URL where the images are publically accessible
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 controller.hears(["#earthnow"], "direct_message,direct_mention,mention,message_received,ambient", function (bot, message) {
   bot.reply(message, "generating image from Himawari-8 satellite...");
+  var outfilePath = process.env.HIMAWARI_OUTFILE;
+  var himawariImageUrl = process.env.HIMAWARI_URL;
   himawari({
     zoom: 1,
     date: "latest", // Or new Date() or a date string
     debug: false,
     infrared: false,
-    outfile: "/var/www/ato.la/projects/reaction-bot/earth.jpg",
+    outfile: outfilePath,
     parallel: false,
     skipEmpty: true,
     timeout: 30000,
     urls: false,
     success: function () {
       // added ms to prevent Slack from caching images. Not like the planet"s view is gonna change much :P
-      bot.reply(message, "http://ato.la/projects/reaction-bot/earth.jpg?ms=" + (new Date()).getMilliseconds());
+      bot.reply(message, himawariImageUrl + "?ms=" + (new Date()).getMilliseconds());
       // process.exit();
     },
     error: function (err) {
