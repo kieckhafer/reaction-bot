@@ -106,7 +106,10 @@ Responds to our various #'s
 etc.
 ```
 
-Tells you your commute time from Reaction's Santa Monica office **
+Tells you your commute time from Reaction's Santa Monica office. Reguires a Google Maps API key to be set as an environmental variable on startup. **
+```
+TOKEN=<slack-api-key> MAPS_API=<google-maps-api-key> node rbot.js
+```
 
 ```
 #drivetime {address}
@@ -115,7 +118,10 @@ Tells you your commute time from Reaction's Santa Monica office **
 #choppertime {address}
 ```
 
-Displays a live image of Earth from the Himawari-8 satellite ***
+Displays a live image of Earth from the Himawari-8 satellite. Requires a location to save images to, and a URL to view saved images, to be set as environmental variables on startup.
+```
+TOKEN=<slack-api-key> HIMAWARI_OUTFILE=<path-to-local-image> HIMAWARI_URL=<url-of-image> node rbot.js
+```
 
 ```
 #earthnow
@@ -125,16 +131,6 @@ See all the commands by asking Reaction-Bot for help
 
 ```
 #bothelp or #bothelp-long
-```
-
-** Requires a Google Maps API key to be set as an environmental variable, `MAPS_API`, on startup.
-```
-TOKEN=<slack-api-key> MAPS_API=<google-maps-api-key> node rbot.js
-```
-
-*** Requires a location to save images to, and a URL to view saved images, to be set as environmental variables, `HIMAWARI_OUTFILE` and `HIMAWARI_URL` on startup.
-```
-TOKEN=<slack-api-key> HIMAWARI_OUTFILE=<path-to-local-image> HIMAWARI_URL=<url-of-image> node rbot.js
 ```
 
 ## Expanded usage
