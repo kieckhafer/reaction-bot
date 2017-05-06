@@ -1,5 +1,4 @@
-/*
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
      ___       __       __          __    __       ___       __   __
     /   \     |  |     |  |        |  |  |  |     /   \     |  | |  |
@@ -23,85 +22,61 @@
 |______/   \______/      |__|
 
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-# Reaction Bot is a custom slack bot.
-
-# Run the bot from the command line:
-
-    TOKEN=<slack-api-token> node rbot.js (for manual restarts/updates)
-    OR
-    TOKEN=<slack-api-token> nodemon rbot.js (for automatic restarts/updates - requires nodemon)
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-*/
-
-
-// libraries
-var himawari = require("himawari");
-var schedule = require("node-schedule");
-var moment = require("moment-timezone");
-var fullTeamList = [];
-var fullChannelList = [];
-
-
-/* Start UX-Bot
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+
+
+/**
+ * Check for a Slack API Token
+ */
 if (!process.env.TOKEN) {
-  console.log("Error: Please specify token");
+  console.log("ERROR: Invalid Slack API Token");
   process.exit(1);
 }
 
-//Include your libraries
+
+/**
+ * Load Botkit
+ */
 var Botkit = require("./lib/Botkit.js");
-var os = require("os");
-// Allow jQuery
+
+
+/**
+ * Load NPM dependencies
+ */
 var $ = require("jquery");
-// Allow XMLHttpRequest
+var himawari = require("himawari");
+var moment = require("moment-timezone");
+var os = require("os");
+var schedule = require("node-schedule");
 var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
 
-//Show Debugging info in CLI?
+
+/**
+ * Set Reaction-Bot options
+ */
 var controller = Botkit.slackbot({
   debug: true,
 });
 
-//Start your bot
+
+/**
+ * Start Reaction-Bot
+ */
 var bot = controller.spawn({
   token: process.env.TOKEN
 }).startRTM(function (err, bot) {
-
   if (err) {
     throw new Error(err);
   }
 
   saveSlackInfo(bot);
-
 });
 
-// Keep bot talking at least once a day
-var rule = new schedule.RecurrenceRule();
 
-// Everyday at 9am make robot do something (silently)
-rule.dayOfWeek = [0, new schedule.Range(0, 6)];
-rule.hour = 9;
-rule.minute = 0;
-
-var schedJob = schedule.scheduleJob(rule, function () {
-  bot.say({
-    text: "I need to be awake!",
-    channel: "C1FSDCL1K"
-  });
-});
-
-/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
-
-
-/* The Good Stuff
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
-
-
-/* Show all possible inputs
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+/**
+ * #bothelp, #bothelp-long
+ * Respond with all available hashtags
+ */
 controller.hears(["#bothelp", "#bothelp-long"], "direct_message,direct_mention,mention,message_received,ambient", function (bot, message) {
   var feed = "";
   var botResponse = bot.botkit.allKeywords;
@@ -120,20 +95,13 @@ controller.hears(["#bothelp", "#bothelp-long"], "direct_message,direct_mention,m
 });
 
 
-/* #drivetime, #walktime, #biketime, #choppertime
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
-/*
- * Google API for
- * drivetime,  walktime, biketime
- * These are all similar, so reusing the same function
- * To use the maps features, you need a Google Maps API key variable when starting rbot
+/**
+ * #drivetime <address/zip/landmark>, #biketime <address/zip/landmark>, #walktime <address/zip/landmark>
+ * How long would it take drive, walk, or bike to your destination from the Reaction Commerce Santa Monica office?
+ * Response includes real-time traffic data from Google
+ * Requires a Google API key to be passed as a session variable during startup
  * MAPS_API=<google-maps-api-key>
- * starting rbot with himawari capabilites:
- * TOKEN=<slack-api-token> MAPS_API=<google-maps-api-key> node rbot.js
  */
-
-
-// #drivetime, #walktime, #biketime
 controller.hears(["#drivetime (.*)", "#walktime (.*)", "#biketime (.*)"], "direct_message,direct_mention,mention,message_received,ambient", function (bot, message) {
   var reactionAddress = "2110+Main+St,+Santa+Monica,+CA+90405";
   var _hash = message.text.trimLeft();
@@ -222,7 +190,13 @@ function getDriveTime(data, _hash) {
 }
 
 
-// #choppertime
+/**
+ * #choppertime <address/zip/landmark>
+ * How long would it take to Chopper to your destination from the Reaction Commerce Santa Monica office?
+ * Inspired by Kobe Bryant, LA Chopper King
+ * Requires a Google API key to be passed as a session variable during startup
+ * MAPS_API=<google-maps-api-key>
+ */
 controller.hears(["#choppertime (.*)"], "direct_message,direct_mention,mention,message_received,ambient", function (bot, message) {
   // calculation is done in lattitue / longitude
   reactionCoords = {};
@@ -232,8 +206,9 @@ controller.hears(["#choppertime (.*)"], "direct_message,direct_mention,mention,m
   var inputAddress = message.text.match(/#choppertime (.*)/i);
   var destinationAddress = inputAddress[1];
   var encodedDestinationAddress = encodeURIComponent(destinationAddress);
+  var apiKey = process.env.MAPS_API;
   // get destination coords
-  var apiUrl = "https://maps.googleapis.com/maps/api/geocode/json?address=" + encodedDestinationAddress + "&key=AIzaSyBjVGPCTLOZvRJfecKKu69n7_WGajNJVTY";
+  var apiUrl = "https://maps.googleapis.com/maps/api/geocode/json?address=" + encodedDestinationAddress + "&key=" + apiKey;
   var request = new XMLHttpRequest();
   request.open("GET", apiUrl, true);
 
@@ -279,13 +254,13 @@ controller.hears(["#choppertime (.*)"], "direct_message,direct_mention,mention,m
 });
 
 
-/* Download real-time images of Earth from the Himawari-8 satellite
-    To use the Himawari-8 satellite imagery feature, you need a few more variables declared when starting rbot
-    HIMAWARI_OUTFILE=<path-to-local-image> (for example, "/var/www/example.com/himawari-images/earth.jpg")
-    HIMAWARI_URL=<url-of-image> (for example, "http://example.com/himawari-images/earth.jpg")
-    Starting rbot with himawari capabilites:
-    TOKEN=<slack-api-token> HIMAWARI_OUTFILE=<path-to-local-image> HIMAWARI_URL=<url-of-image> node rbot.js (for manual restarts/updates)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+/**
+ * #earthnow
+ * Download real-time images of Earth from the Himawari-8 satellite
+ * Requires two extra parameters to be passed as session variables during startup
+ * HIMAWARI_OUTFILE=<path-to-local-image>
+ * HIMAWARI_URL=<url-of-image> node rbot.js
+ */
 controller.hears(["#earthnow"], "direct_message,direct_mention,mention,message_received,ambient", function (bot, message) {
   bot.reply(message, "generating image from Himawari-8 satellite...");
   var outfilePath = process.env.HIMAWARI_OUTFILE;
@@ -316,8 +291,11 @@ controller.hears(["#earthnow"], "direct_message,direct_mention,mention,message_r
 });
 
 
-/* Get timezones for all Reaction team members
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+/**
+ * #timezones
+ * Display time-zones of all Reaction team members across the world
+ * Los Angeles, Connecticut, Lagos, Nairobi, Manila
+ */
 controller.hears(["#timezones"], "direct_message,direct_mention,mention,message_received,ambient", function (bot, message) {
   var losAngeles = moment().tz("America/Los_Angeles").format("hh:mm A") + ": Los Angeles";
   var connecticut = moment().tz("America/New_York").format("hh:mm A") + ": Connecticut";
@@ -334,8 +312,10 @@ controller.hears(["#timezones"], "direct_message,direct_mention,mention,message_
 });
 
 
-/* Get Stargazers for Reaction Repo
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+/**
+ * #stargazers
+ * Retrieve number of stargazers for the Reaction Commerce Github repository
+ */
 controller.hears(["#stargazers"], "direct_message,direct_mention,mention,message_received,ambient", function (bot, message) {
   var apiUrl = "https://api.github.com/repos/reactioncommerce/reaction";
   var request = new XMLHttpRequest();
@@ -368,8 +348,13 @@ controller.hears(["#stargazers"], "direct_message,direct_mention,mention,message
 });
 
 
-/* Basic custom responses
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+/**
+ * Ingests a hashtag, spits out a response
+ * Use #bothelp (or #bothelp-long) to see all available hashtags
+ * @function
+ * @param {object} hashtags - Hashtags ingested from Slack input
+ * @param {object} responses - Responses sent back to Slack
+ */
 function botReply(hashtags, responses) {
   controller.hears(hashtags, "direct_message,direct_mention,mention,message_received,ambient", function (bot, message) {
     var botResponse = responses[Math.floor(Math.random() * responses.length)];
@@ -377,15 +362,20 @@ function botReply(hashtags, responses) {
   });
 }
 
-// Example:
+/**
+ * Example
+ */
+
 /*
+
 botReply(["#foo", "#bar"], [
     "baz",
     "fatigued"
 ]);
+
 */
 
-/********************************************************************************************
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
 :::::::::  ::::::::::     :::     :::::::::      ::::::::::: :::    ::: ::::::::::: ::::::::
@@ -398,8 +388,7 @@ botReply(["#foo", "#bar"], [
 
 
 Hey!... Keep this list alphabetized!!!
-********************************************************************************************/
-
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 
 botReply(["#afterlunch"], [
     "http://new.tinygrab.com/219da34c650c638ab5b863b2fc1b53261c3e9af36d.png"
@@ -603,10 +592,19 @@ botReply(["#surf"], [
     "http://cd8ba0b44a15c10065fd-24461f391e20b7336331d5789078af53.r23.cf1.rackcdn.com/baldursgate.vanillaforums.com/FileUpload/2e/36ce2b9454f5917b1333fe5ed06d1c.gif"
 ]);
 
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Thanks!
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 
-/* Helper Functions
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
-/*** http://stackoverflow.com/questions/1502590/calculate-distance-between-two-points-in-google-maps-v3 **/
+
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Helper functions
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+
+/**
+ * Distance calculation for #choppertime
+ * http://stackoverflow.com/questions/1502590/calculate-distance-between-two-points-in-google-maps-v3
+ */
 function getDistance(startCoords, endCoords) {
 
   var rad = function (x) {
@@ -629,6 +627,10 @@ function getDistance(startCoords, endCoords) {
   return d; // returns the distance in kilometers
 }
 
+
+/**
+ * Time formatting helper for #choppertime
+ */
 function getHHMM(decimalHours) {
   var output = "";
   var hours = Math.floor(decimalHours);
@@ -643,6 +645,12 @@ function getHHMM(decimalHours) {
   return output;
 }
 
+
+/**
+ * Get full team and channel list
+ */
+var fullTeamList = [];
+var fullChannelList = [];
 
 function saveSlackInfo(_bot) {
   // Save Slack Users
@@ -675,3 +683,24 @@ function saveSlackInfo(_bot) {
     }
   });
 }
+
+
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Keep Reaction-Bot healthy
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+
+/**
+ * Keep Reaction-Bot active by silently sending a message once per day
+ */
+var rule = new schedule.RecurrenceRule();
+
+rule.dayOfWeek = [0, new schedule.Range(0, 6)];
+rule.hour = 9;
+rule.minute = 0;
+
+var schedJob = schedule.scheduleJob(rule, function () {
+  bot.say({
+    text: "I need to be awake!",
+    channel: "ABCDEFGHI"
+  });
+});
