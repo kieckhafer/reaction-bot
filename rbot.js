@@ -481,6 +481,13 @@ botReply(["#coffee", "#whoops"], [
     "http://i.giphy.com/tId80dcdksC8U.gif"
 ]);
 
+botReply(["#covfefe"], [
+    "https://pbs.twimg.com/media/DBIvO0LU0AEd5s3.jpg",
+    "http://i.ato.la/skitch/Donald_Trump___the_‘Covfefe’_Tweet__What_Did_He_Mean____Heavy_com_1EDEA59B.png",
+    "http://i.ato.la/skitch/Donald_Trump___the_‘Covfefe’_Tweet__What_Did_He_Mean____Heavy_com_1EDEA66C.png",
+    "https://pbs.twimg.com/media/DBINzIBVYAAM9a4.jpg"
+]);
+
 botReply(["#fatigued", "#fatigado"], [
     "http://new.tinygrab.com/219da34c65fb5ffb028e32a00d430b318c38a5ca70.jpg",
     "http://gph.is/1gVrqmL",
