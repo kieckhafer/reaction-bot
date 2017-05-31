@@ -485,7 +485,8 @@ botReply(["#covfefe"], [
     "https://pbs.twimg.com/media/DBIvO0LU0AEd5s3.jpg",
     "http://i.ato.la/skitch/Donald_Trump___the_‘Covfefe’_Tweet__What_Did_He_Mean____Heavy_com_1EDEA59B.png",
     "http://i.ato.la/skitch/Donald_Trump___the_‘Covfefe’_Tweet__What_Did_He_Mean____Heavy_com_1EDEA66C.png",
-    "https://pbs.twimg.com/media/DBINzIBVYAAM9a4.jpg"
+    "https://pbs.twimg.com/media/DBINzIBVYAAM9a4.jpg",
+    "https://twitter.com/cool_as_heck/status/869797000438362112"
 ]);
 
 botReply(["#fatigued", "#fatigado"], [
