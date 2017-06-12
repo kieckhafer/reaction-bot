@@ -404,6 +404,10 @@ botReply(["#baptized"], [
     "http://ara-vision.com/gif-library/fail/baptized.gif"
 ]);
 
+botReply(["#buddy"], [
+    "https://m.popkey.co/f9149b/rbVxM.gif"
+]);
+
 botReply(["#buzzword"], [
 	"Mobilegeddon",
 	"Low-hanging fruit",
