@@ -538,6 +538,7 @@ botReply(["#lunch"], [
   "Novel Cafe",
   "Phorage",
   "Samosa House",
+  "Santa Monica Farms",
   "Santa Monica Place food court",
   "Shoops",
   "Simpang ",
@@ -618,6 +619,12 @@ botReply(["#struggleplate"], [
     "http://i.imgur.com/sW7QxJx.jpg",
     "http://38.media.tumblr.com/d04494b57e344367e55bbc2fd357f6fa/tumblr_n9b5pyRSQm1rwt6qvo3_400.jpg",
     "http://i.ato.la/skitch/cilantrofish_1E5039C0.jpg"
+]);
+
+botReply(["#strugglelunch"], [
+  "A one hundred year egg, no rice",
+  "One sip of La Croix",
+  "Three peanut butter cups"
 ]);
 
 botReply(["#strugglemvp", "#cilantrofish"], [
