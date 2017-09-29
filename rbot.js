@@ -522,7 +522,7 @@ botReply(["#lol"], [
     "http://i.imgur.com/kbtV8zN.gif"
 ]);
 
-botReply(["#lunch", "#strugglelunch"], [
+botReply(["#lunch"], [
     "Komodo",
     "No food. Go Boxing. :boxing:",
     "Stella Barra",
