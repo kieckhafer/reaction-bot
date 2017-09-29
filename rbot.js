@@ -524,7 +524,7 @@ botReply(["#lol"], [
 
 botReply(["#lunch", "#strugglelunch"], [
     "Komodo",
-    "No food. Go Boxing. :boxing:"
+    "No food. Go Boxing. :boxing:",
     "Stella Barra",
     "Cha Cha Chicken ",
     "Komodo",
