@@ -265,7 +265,6 @@ controller.hears(["#earthnow"], "direct_message,direct_mention,mention,message_r
   bot.reply(message, "generating image from Himawari-8 satellite...");
   var outfilePath = process.env.HIMAWARI_OUTFILE;
   var himawariImageUrl = process.env.HIMAWARI_URL;
-  console.log("outfilePath, himawari", outfilePath, himawariImageUrl);
   himawari({
     zoom: 1,
     date: "latest", // Or new Date() or a date string
