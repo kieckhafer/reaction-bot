@@ -523,33 +523,32 @@ botReply(["#lol"], [
 ]);
 
 botReply(["#lunch"], [
-    "Komodo",
-    "No food. Go Boxing. :boxing:",
-    "Stella Barra",
-    "Cha Cha Chicken ",
-    "Komodo",
-    "Thai Vegan",
-    "Shoops",
-    "Samosa House",
-    "Bibibop",
-    "SM Place food court",
-    "Taco Libre",
-    "Tacos Por Favor ",
-    "Phorage",
-    "Mitsuwa",
-    "Simpang ",
-    "Chipotle ",
-    "Bareburger",
-    "Hiho ",
-    "Cava",
-    "Tender Greens",
-    "Coming soon: Poking",
-    "Sunny Blue",
-    "Aussie Pie Company",
-    "Novel Cafe",
-    "Bruno's Italian",
-    "Casa Martin",
-    "Coming soon: Buffalo Wild Wings"
+  "Aussie Pie Company",
+  "Bareburger",
+  "Bibibop",
+  "Bruno's Italian",
+  "Casa Martin",
+  "Cava",
+  "Cha Cha Chicken ",
+  "Chipotle ",
+  "Hiho ",
+  "Komodo",
+  "Mitsuwa",
+  "Novel Cafe",
+  "Phorage",
+  "Samosa House",
+  "Santa Monica Place food court",
+  "Shoops",
+  "Simpang ",
+  "Stella Barra",
+  "Sunny Blue",
+  "Taco Libre",
+  "Tacos Por Favor ",
+  "Tender Greens",
+  "Thai Vegan",
+  "Coming soon: Buffalo Wild Wings",
+  "Coming soon: Poking",
+  "No food. Go Boxing. :boxing:"
 ]);
 
 botReply(["#mediocre"], [
@@ -574,8 +573,8 @@ botReply(["#pandemonium"], [
 ]);
 
 botReply(["#richlunch", "#dadispaying"], [
-    "Lawry's Prime Rib",
-    "Chez Jay"
+  "Chez Jay",
+  "Lawry's Prime Rib"
 ]);
 
 botReply(["#ripian"], [
