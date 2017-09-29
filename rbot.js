@@ -522,6 +522,36 @@ botReply(["#lol"], [
     "http://i.imgur.com/kbtV8zN.gif"
 ]);
 
+botReply(["#lunch", "#strugglelunch"], [
+    "Komodo",
+    "No food. Go Boxing. :boxing:"
+    "Stella Barra",
+    "Cha Cha Chicken ",
+    "Komodo",
+    "Thai Vegan",
+    "Shoops",
+    "Samosa House",
+    "Bibibop",
+    "SM Place food court",
+    "Taco Libre",
+    "Tacos Por Favor ",
+    "Phorage",
+    "Mitsuwa",
+    "Simpang ",
+    "Chipotle ",
+    "Bareburger",
+    "Hiho ",
+    "Cava",
+    "Tender Greens",
+    "Coming soon: Poking",
+    "Sunny Blue",
+    "Aussie Pie Company",
+    "Novel Cafe",
+    "Bruno's Italian",
+    "Casa Martin",
+    "Coming soon: Buffalo Wild Wings"
+]);
+
 botReply(["#mediocre"], [
     "http://i2.kym-cdn.com/photos/images/original/001/025/902/7d5.gif"
 ]);
@@ -541,6 +571,11 @@ botReply(["#obamajam"], [
 botReply(["#pandemonium"], [
     "http://pop.h-cdn.co/assets/15/21/1431967859-madmax-guitar.gif",
     "http://i.imgur.com/6WFjtDB.gif%20alt="
+]);
+
+botReply(["#richlunch", "#dadispaying"], [
+    "Lawry's Prime Rib",
+    "Chez Jay"
 ]);
 
 botReply(["#ripian"], [
@@ -570,19 +605,6 @@ botReply(["#stabbed"], [
     "http://i.imgur.com/ey5hIyJ.gif"
 ]);
 
-botReply(["#strugglelunch"], [
-    "The Point",
-    "Signature Cafe",
-    "An automated order from Bulan Thai",
-    "An apple from the basket in the kitchen",
-    "Chipotle (RIP)",
-    "A swig of Coffee Mate",
-    "Xenomorph Grill",
-    "Bowl of Fruity Pebbles",
-    "Cap’n Crunch",
-    "That weird fish thing from the Point\"s Facebook page"
-]);
-
 botReply(["#struggleplate"], [
     "http://2.bp.blogspot.com/-4aTCryIaPY8/TdXkuS41InI/AAAAAAAAGdQ/iKcrrTKoC2o/s1600/DSC06503_2.JPG",
     "http://i.imgur.com/tdUNOYj.jpg",
@@ -606,7 +628,7 @@ botReply(["#surf"], [
     "https://media.giphy.com/media/3o7bu5rYASwyVcTo0U/giphy.gif",
     "https://media.giphy.com/media/3o7budz7Alxzyla6EU/giphy.gif",
     "https://media.giphy.com/media/l0IynTJPbOWbSRxHW/giphy.gif"
-  
+
 ]);
 
 botReply(["#stillalive"], [
