@@ -294,15 +294,23 @@ controller.hears(["#earthnow"], "direct_message,direct_mention,mention,message_r
 /**
  * #timezones
  * Display current time for all Reaction team members across the world
- * Los Angeles, Connecticut, Lagos, Nairobi, Manila
+ * Los Angeles, Colorado Springs, Connecticut, Lagos, Nairobi, Manila
  */
-controller.hears(["#timezones"], "direct_message,direct_mention,mention,message_received,ambient", function (bot, message) {
-  var losAngeles = moment().tz("America/Los_Angeles").format("hh:mm A") + ":  :flag-us-ca:  Los Angeles";
-  var denver = moment().tz("America/Denver").format("hh:mm A") + ":  :flag-us-co:  Colorado Springs";
-  var connecticut = moment().tz("America/New_York").format("hh:mm A") + ":  :flag-us-ct:  Connecticut";
-  var lagos = moment().tz("Africa/Lagos").format("hh:mm A") + ":  :flag-ng:  Lagos";
-  var nairobi = moment().tz("Africa/Nairobi").format("hh:mm A") + ":  :flag-ke:  Nairobi";
-  var manila = moment().tz("Asia/Manila").format("hh:mm A") + ":  :flag-ph:  Manila";
+controller.hears(["#timezones (.*)"], "direct_message,direct_mention,mention,message_received,ambient", function (bot, message) {
+  var inputTime = message.text.match(/#timezones (.*)/i) || "";
+
+  var losAngeles = moment(inputTime).tz("America/Los_Angeles").format("hh:mm A") + ":  :flag-us-ca:  Los Angeles";
+  // var denver = moment().tz("America/Denver").format("hh:mm A") + ":  :flag-us-co:  Colorado Springs";
+  // var connecticut = moment().tz("America/New_York").format("hh:mm A") + ":  :flag-us-ct:  Connecticut";
+  // var lagos = moment().tz("Africa/Lagos").format("hh:mm A") + ":  :flag-ng:  Lagos";
+  // var nairobi = moment().tz("Africa/Nairobi").format("hh:mm A") + ":  :flag-ke:  Nairobi";
+  // var manila = moment().tz("Asia/Manila").format("hh:mm A") + ":  :flag-ph:  Manila";
+
+  var denver = losAngeles.clone().tz("America/Denver").format("hh:mm A") + ":  :flag-us-co:  Colorado Springs";
+  var connecticut = losAngeles.clone().tz("America/New_York").format("hh:mm A") + ":  :flag-us-ct:  Connecticut";
+  var lagos = losAngeles.clone().tz("Africa/Lagos").format("hh:mm A") + ":  :flag-ng:  Lagos";
+  var nairobi = losAngeles.clone().tz("Africa/Nairobi").format("hh:mm A") + ":  :flag-ke:  Nairobi";
+  var manila = losAngeles.clone().tz("Asia/Manila").format("hh:mm A") + ":  :flag-ph:  Manila";
 
   bot.reply(message, "Reaction Team Time Zones");
   bot.reply(message, losAngeles);
@@ -622,6 +630,7 @@ botReply(["#struggleplate"], [
 
 botReply(["#strugglelunch"], [
   "A one hundred year egg, no rice",
+  "A warm Budweiser off of Sophie's desk",
   "One sip of La Croix",
   "Three peanut butter cups"
 ]);
