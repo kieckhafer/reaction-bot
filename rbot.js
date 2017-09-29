@@ -297,9 +297,9 @@ controller.hears(["#earthnow"], "direct_message,direct_mention,mention,message_r
  * Los Angeles, Colorado Springs, Connecticut, Lagos, Nairobi, Manila
  */
 controller.hears(["#timezones (.*)"], "direct_message,direct_mention,mention,message_received,ambient", function (bot, message) {
-  var inputTime = message.text.match(/#timezones (.*)/i) || "";
+  // var inputTime = message.text.match(/#timezones (.*)/i) || "";
 
-  var losAngeles = moment(inputTime).tz("America/Los_Angeles").format("hh:mm A") + ":  :flag-us-ca:  Los Angeles";
+  var losAngeles = moment().tz("America/Los_Angeles").format("hh:mm A") + ":  :flag-us-ca:  Los Angeles";
   // var denver = moment().tz("America/Denver").format("hh:mm A") + ":  :flag-us-co:  Colorado Springs";
   // var connecticut = moment().tz("America/New_York").format("hh:mm A") + ":  :flag-us-ct:  Connecticut";
   // var lagos = moment().tz("Africa/Lagos").format("hh:mm A") + ":  :flag-ng:  Lagos";
