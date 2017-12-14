@@ -301,7 +301,9 @@ controller.hears(["#timezones"], "direct_message,direct_mention,mention,message_
   var denver = moment().tz("America/Denver").format("hh:mm A") + ":  :flag-us-co:  Colorado Springs";
   var connecticut = moment().tz("America/New_York").format("hh:mm A") + ":  :flag-us-ct:  Connecticut";
   var lagos = moment().tz("Africa/Lagos").format("hh:mm A") + ":  :flag-ng:  Lagos";
+  var bahlingen = moment().tz("Europe/Berlin").format("hh:mm A") + ":  :flag-de:  Bahlingen";
   var nairobi = moment().tz("Africa/Nairobi").format("hh:mm A") + ":  :flag-ke:  Nairobi";
+  var bengaluru = moment().tz("Asia/Kolkata").format("hh:mm A") + ":  :flag-in:  Bengaluru";
   var manila = moment().tz("Asia/Manila").format("hh:mm A") + ":  :flag-ph:  Manila";
 
   bot.reply(message, "Reaction Team Time Zones");
@@ -309,7 +311,9 @@ controller.hears(["#timezones"], "direct_message,direct_mention,mention,message_
   bot.reply(message, denver);
   bot.reply(message, connecticut);
   bot.reply(message, lagos);
+  bot.reply(message, bahlingen);
   bot.reply(message, nairobi);
+  bot.reply(message, bengaluru);
   bot.reply(message, manila);
 });
 
