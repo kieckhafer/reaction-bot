@@ -304,7 +304,7 @@ controller.hears(["#timezones"], "direct_message,direct_mention,mention,message_
   var lagos = moment().tz("Africa/Lagos").format("hh:mm A") + ":  :flag-ng:  Lagos (Seun)";
   var bahlingen = moment().tz("Europe/Berlin").format("hh:mm A") + ":  :flag-de:  Bahlingen (Michael)";
   var nairobi = moment().tz("Africa/Nairobi").format("hh:mm A") + ":  :flag-ke:  Nairobi (Joy)";
-  var bengaluru = moment().tz("Asia/Kolkata").format("hh:mm A") + ":  :flag-in:  Bengaluru ()";
+  var bengaluru = moment().tz("Asia/Kolkata").format("hh:mm A") + ":  :flag-in:  Bengaluru (Akarshit)";
   var manila = moment().tz("Asia/Manila").format("hh:mm A") + ":  :flag-ph:  Manila (Brent)";
 
   bot.reply(message, "Reaction Team Time Zones");
