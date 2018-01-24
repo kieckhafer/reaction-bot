@@ -331,6 +331,11 @@ controller.hears(["#meeting"], "direct_message,direct_mention,mention,message_re
 
   bot.reply(message, "hello" + baseTime);
 
+  var bahlingen = baseTime.clone().tz("Europe/Berlin").format("hh:mm A") + ":  :flag-de:  Bahlingen (Michael)";
+
+  bot.reply(message, "hello2" + bahlingen);
+
+
 
   var americaPacific = moment().tz("America/Los_Angeles").format("hh:mm A") + ":  :flag-us-ca:  Santa Monica";
   var americaMountain = moment().tz("America/Denver").format("hh:mm A") + ":  :flag-us-co:  Colorado Springs (Spencer)";
