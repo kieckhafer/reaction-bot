@@ -296,7 +296,7 @@ controller.hears(["#earthnow"], "direct_message,direct_mention,mention,message_r
  * Display current time for all Reaction team members across the world
  * Los Angeles, Colorado Springs, Connecticut, Lagos, Nairobi, Manila
  */
-controller.hears(["#timezones (.*)"], "direct_message,direct_mention,mention,message_received,ambient", function (bot, message) {
+controller.hears(["#timezones"], "direct_message,direct_mention,mention,message_received,ambient", function (bot, message) {
   bot.reply(message, "baseTime test");
   var inputTime = message.text.match(/#timezones (.*)/i) || "";
 
