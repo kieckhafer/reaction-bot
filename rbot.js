@@ -298,7 +298,7 @@ controller.hears(["#earthnow"], "direct_message,direct_mention,mention,message_r
  */
 controller.hears(["#timezones (.*)"], "direct_message,direct_mention,mention,message_received,ambient", function (bot, message) {
   bot.reply(message, "baseTime test");
-  var inputTime = message.text.match(/#timezones (.*)/i);
+  var inputTime = message.text.match(/#timezones (.*)/i) || "";
 
   bot.reply(message, "inputTime " + inputTime);
 
