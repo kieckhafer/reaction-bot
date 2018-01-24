@@ -330,11 +330,11 @@ controller.hears(["#findatime (.*)"], "direct_message,direct_mention,mention,mes
   var inputTime = message.text.match(/#findatime (.*)/i);
   var time = inputTime[1];
 
-  var baseInputTime = moment("2018-01-01 " + time);
+  var baseInputTime = moment("2018-01-01 " + time).tz("America/Los_Angeles");
 
   var baseTime = baseInputTime.clone().tz("America/Los_Angeles");
 
-  bot.reply(message, "baseTime" + baseTime);
+  bot.reply(message, "baseTime---------- " + baseTime + " --------------- " + baseInputTime);
 
   var americaPacific = baseTime.clone().tz("America/Los_Angeles").format("hh:mm A") + ":  :flag-us-ca:  Santa Monica";
   var americaMountain = baseTime.clone().tz("America/Denver").format("hh:mm A") + ":  :flag-us-co:  Colorado Springs (Spencer)";
