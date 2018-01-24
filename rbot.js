@@ -329,7 +329,11 @@ controller.hears(["#timezones", "#currentTime"], "direct_message,direct_mention,
 controller.hears(["#findatime (.*)"], "direct_message,direct_mention,mention,message_received,ambient", function (bot, message) {
   var inputTime = message.text.match(/#findatime (.*)/i);
   var time = inputTime[1];
-  var baseTime = moment(time).tz("America/Los_Angeles");
+
+  var date = new Date();
+  var today = date.getFullYear() + "-" + date.getMonth() + "-" + date.getDate();
+
+  var baseTime = moment(today + time).tz("America/Los_Angeles");
 
   var americaPacific = baseTime.clone().tz("America/Los_Angeles").format("hh:mm A") + ":  :flag-us-ca:  Santa Monica";
   var americaMountain = baseTime.clone().tz("America/Denver").format("hh:mm A") + ":  :flag-us-co:  Colorado Springs (Spencer)";
