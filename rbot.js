@@ -327,7 +327,7 @@ controller.hears(["#timezones"], "direct_message,direct_mention,mention,message_
  */
 controller.hears(["#meeting"], "direct_message,direct_mention,mention,message_received,ambient", function (bot, message) {
 
-  var baseTime = moment().tz("America/Los_Angeles").format("hh:mm A");
+  var baseTime = moment().tz("America/Los_Angeles");
 
   bot.reply(message, "hello" + baseTime);
 
