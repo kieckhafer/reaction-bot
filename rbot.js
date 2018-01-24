@@ -331,7 +331,7 @@ controller.hears(["#meeting"], "direct_message,direct_mention,mention,message_re
 
   bot.reply(message, "hello" + baseTime);
 
-  var bahlingen = baseTime.clone().tz("Europe/Berlin").format("hh:mm A") + ":  :flag-de:  Bahlingen (Michael)";
+  var bahlingen = baseTime.tz("Europe/Berlin").format("hh:mm A") + ":  :flag-de:  Bahlingen (Michael)";
 
   bot.reply(message, "hello2" + bahlingen);
 
