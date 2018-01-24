@@ -331,6 +331,8 @@ controller.hears(["#meeting (.*)"], "direct_message,direct_mention,mention,messa
 // var london     = newYork.clone().tz("Europe/London");
 //
 //
+//
+bot.reply("hello");
 
 
   var inputTime = message.text.match(/#meeting (.*)/i);
