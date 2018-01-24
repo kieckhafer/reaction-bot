@@ -334,7 +334,7 @@ controller.hears(["#findatime (.*)"], "direct_message,direct_mention,mention,mes
 
   var baseTime = baseInputTime.clone().tz("America/Los_Angeles");
 
-  bot.reply(message, baseTime);
+  bot.reply(message, "baseTime" + baseTime);
 
   var americaPacific = baseTime.clone().tz("America/Los_Angeles").format("hh:mm A") + ":  :flag-us-ca:  Santa Monica";
   var americaMountain = baseTime.clone().tz("America/Denver").format("hh:mm A") + ":  :flag-us-co:  Colorado Springs (Spencer)";
