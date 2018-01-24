@@ -297,56 +297,7 @@ controller.hears(["#earthnow"], "direct_message,direct_mention,mention,message_r
  * Los Angeles, Colorado Springs, Connecticut, Lagos, Nairobi, Manila
  */
 controller.hears(["#timezones"], "direct_message,direct_mention,mention,message_received,ambient", function (bot, message) {
-  var americaPacific = moment().tz("America/Los_Angeles").format("hh:mm A") + ":  :flag-us-ca:  Santa Monica";
-  var americaMountain = moment().tz("America/Denver").format("hh:mm A") + ":  :flag-us-co:  Colorado Springs (Spencer)";
-  var americaCentral = moment().tz("America/Chicago").format("hh:mm A") + ":  :flag-us-la:  New Orleans (Nat) / :flag-us-wi:  Sheboygan (Eric D.)";
-  var americaEastern = moment().tz("America/New_York").format("hh:mm A") + ":  :flag-us-ct:  Burlington (Jeremy)";
-  var lagos = moment().tz("Africa/Lagos").format("hh:mm A") + ":  :flag-ng:  Lagos (Seun)";
-  var bahlingen = moment().tz("Europe/Berlin").format("hh:mm A") + ":  :flag-de:  Bahlingen (Michael)";
-  var nairobi = moment().tz("Africa/Nairobi").format("hh:mm A") + ":  :flag-ke:  Nairobi (Joy)";
-  var bengaluru = moment().tz("Asia/Kolkata").format("hh:mm A") + ":  :flag-in:  Bengaluru (Akarshit)";
-  var manila = moment().tz("Asia/Manila").format("hh:mm A") + ":  :flag-ph:  Manila (Brent)";
-
-  bot.reply(message, "Reaction Team Time Zones");
-  bot.reply(message, americaPacific);
-  bot.reply(message, americaMountain);
-  bot.reply(message, americaCentral);
-  bot.reply(message, americaEastern);
-  bot.reply(message, lagos);
-  bot.reply(message, bahlingen);
-  bot.reply(message, nairobi);
-  bot.reply(message, bengaluru);
-  bot.reply(message, manila);
-});
-
-
-/**
- * #timezones
- * Display current time for all Reaction team members across the world
- * Los Angeles, Colorado Springs, Connecticut, Lagos, Nairobi, Manila
- */
-controller.hears(["#meeting"], "direct_message,direct_mention,mention,message_received,ambient", function (bot, message) {
-
   var baseTime = moment().tz("America/Los_Angeles");
-
-  // bot.reply(message, "hello" + baseTime);
-  //
-  // var bahlingen = baseTime.tz("Europe/Berlin");
-  //
-  // bot.reply(message, "hello2" + bahlingen);
-  //
-  //
-  //
-  // var americaPacific = moment().tz("America/Los_Angeles").format("hh:mm A") + ":  :flag-us-ca:  Santa Monica";
-  // var americaMountain = moment().tz("America/Denver").format("hh:mm A") + ":  :flag-us-co:  Colorado Springs (Spencer)";
-  // var americaCentral = moment().tz("America/Chicago").format("hh:mm A") + ":  :flag-us-la:  New Orleans (Nat) / :flag-us-wi:  Sheboygan (Eric D.)";
-  // var americaEastern = moment().tz("America/New_York").format("hh:mm A") + ":  :flag-us-ct:  Burlington (Jeremy)";
-  // var lagos = moment().tz("Africa/Lagos").format("hh:mm A") + ":  :flag-ng:  Lagos (Seun)";
-  // var bahlingen = moment().tz("Europe/Berlin").format("hh:mm A") + ":  :flag-de:  Bahlingen (Michael)";
-  // var nairobi = moment().tz("Africa/Nairobi").format("hh:mm A") + ":  :flag-ke:  Nairobi (Joy)";
-  // var bengaluru = moment().tz("Asia/Kolkata").format("hh:mm A") + ":  :flag-in:  Bengaluru (Akarshit)";
-  // var manila = moment().tz("Asia/Manila").format("hh:mm A") + ":  :flag-ph:  Manila (Brent)";
-
 
   var americaPacific = baseTime.clone().tz("America/Los_Angeles").format("hh:mm A") + ":  :flag-us-ca:  Santa Monica";
   var americaMountain = baseTime.clone().tz("America/Denver").format("hh:mm A") + ":  :flag-us-co:  Colorado Springs (Spencer)";
@@ -357,8 +308,6 @@ controller.hears(["#meeting"], "direct_message,direct_mention,mention,message_re
   var nairobi = baseTime.clone().tz("Africa/Nairobi").format("hh:mm A") + ":  :flag-ke:  Nairobi (Joy)";
   var bengaluru = baseTime.clone().tz("Asia/Kolkata").format("hh:mm A") + ":  :flag-in:  Bengaluru (Akarshit)";
   var manila = baseTime.clone().tz("Asia/Manila").format("hh:mm A") + ":  :flag-ph:  Manila (Brent)";
-  //
-  //
 
   bot.reply(message, "Reaction Team Time Zones");
   bot.reply(message, americaPacific);
