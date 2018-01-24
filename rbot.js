@@ -333,7 +333,7 @@ controller.hears(["#findatime (.*)"], "direct_message,direct_mention,mention,mes
   var date = new Date();
   var today = date.getFullYear() + "-" + date.getMonth() + "-" + date.getDate();
 
-  var baseTime = moment(today + time).tz("America/Los_Angeles");
+  var baseTime = moment("2018-01-01" + time).tz("America/Los_Angeles");
 
   var americaPacific = baseTime.clone().tz("America/Los_Angeles").format("hh:mm A") + ":  :flag-us-ca:  Santa Monica";
   var americaMountain = baseTime.clone().tz("America/Denver").format("hh:mm A") + ":  :flag-us-co:  Colorado Springs (Spencer)";
