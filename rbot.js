@@ -296,19 +296,8 @@ controller.hears(["#earthnow"], "direct_message,direct_mention,mention,message_r
  * Display current time for all Reaction team members across the world
  * Los Angeles, Colorado Springs, Connecticut, Lagos, Nairobi, Manila
  */
-controller.hears(["#timezones"], "direct_message,direct_mention,mention,message_received,ambient", function (bot, message) {
-  bot.reply(message, "baseTime test");
-  var inputTime = message.text.match(/#timezones (.*)/i) || "";
-
-  bot.reply(message, "inputTime " + inputTime);
-
-  if (inputTime !== undefined) {
-    var baseTime = inputTime[1];
-  } else {
-    var baseTime = moment().tz("America/Los_Angeles");
-  }
-
-  bot.reply(message, "baseTime " + baseTime);
+controller.hears(["#timezones, #currentTime"], "direct_message,direct_mention,mention,message_received,ambient", function (bot, message) {
+  var baseTime = moment().tz("America/Los_Angeles");
 
   var americaPacific = baseTime.clone().tz("America/Los_Angeles").format("hh:mm A") + ":  :flag-us-ca:  Santa Monica";
   var americaMountain = baseTime.clone().tz("America/Denver").format("hh:mm A") + ":  :flag-us-co:  Colorado Springs (Spencer)";
