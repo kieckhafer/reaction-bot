@@ -329,34 +329,34 @@ controller.hears(["#meeting"], "direct_message,direct_mention,mention,message_re
 
   var baseTime = moment().tz("America/Los_Angeles");
 
-  bot.reply(message, "hello" + baseTime);
+  // bot.reply(message, "hello" + baseTime);
+  //
+  // var bahlingen = baseTime.tz("Europe/Berlin");
+  //
+  // bot.reply(message, "hello2" + bahlingen);
+  //
+  //
+  //
+  // var americaPacific = moment().tz("America/Los_Angeles").format("hh:mm A") + ":  :flag-us-ca:  Santa Monica";
+  // var americaMountain = moment().tz("America/Denver").format("hh:mm A") + ":  :flag-us-co:  Colorado Springs (Spencer)";
+  // var americaCentral = moment().tz("America/Chicago").format("hh:mm A") + ":  :flag-us-la:  New Orleans (Nat) / :flag-us-wi:  Sheboygan (Eric D.)";
+  // var americaEastern = moment().tz("America/New_York").format("hh:mm A") + ":  :flag-us-ct:  Burlington (Jeremy)";
+  // var lagos = moment().tz("Africa/Lagos").format("hh:mm A") + ":  :flag-ng:  Lagos (Seun)";
+  // var bahlingen = moment().tz("Europe/Berlin").format("hh:mm A") + ":  :flag-de:  Bahlingen (Michael)";
+  // var nairobi = moment().tz("Africa/Nairobi").format("hh:mm A") + ":  :flag-ke:  Nairobi (Joy)";
+  // var bengaluru = moment().tz("Asia/Kolkata").format("hh:mm A") + ":  :flag-in:  Bengaluru (Akarshit)";
+  // var manila = moment().tz("Asia/Manila").format("hh:mm A") + ":  :flag-ph:  Manila (Brent)";
 
-  var bahlingen = baseTime.tz("Europe/Berlin");
 
-  bot.reply(message, "hello2" + bahlingen);
-
-
-
-  var americaPacific = moment().tz("America/Los_Angeles").format("hh:mm A") + ":  :flag-us-ca:  Santa Monica";
-  var americaMountain = moment().tz("America/Denver").format("hh:mm A") + ":  :flag-us-co:  Colorado Springs (Spencer)";
-  var americaCentral = moment().tz("America/Chicago").format("hh:mm A") + ":  :flag-us-la:  New Orleans (Nat) / :flag-us-wi:  Sheboygan (Eric D.)";
-  var americaEastern = moment().tz("America/New_York").format("hh:mm A") + ":  :flag-us-ct:  Burlington (Jeremy)";
-  var lagos = moment().tz("Africa/Lagos").format("hh:mm A") + ":  :flag-ng:  Lagos (Seun)";
-  var bahlingen = moment().tz("Europe/Berlin").format("hh:mm A") + ":  :flag-de:  Bahlingen (Michael)";
-  var nairobi = moment().tz("Africa/Nairobi").format("hh:mm A") + ":  :flag-ke:  Nairobi (Joy)";
-  var bengaluru = moment().tz("Asia/Kolkata").format("hh:mm A") + ":  :flag-in:  Bengaluru (Akarshit)";
-  var manila = moment().tz("Asia/Manila").format("hh:mm A") + ":  :flag-ph:  Manila (Brent)";
-
-
-  // var americaPacific = baseTime.clone().tz("America/Los_Angeles").format("hh:mm A") + ":  :flag-us-ca:  Santa Monica";
-  // var americaMountain = baseTime.clone().tz("America/Denver").format("hh:mm A") + ":  :flag-us-co:  Colorado Springs (Spencer)";
-  // var americaCentral = baseTime.clone().tz("America/Chicago").format("hh:mm A") + ":  :flag-us-la:  New Orleans (Nat) / :flag-us-wi:  Sheboygan (Eric D.)";
-  // var americaEastern = baseTime.clone().tz("America/New_York").format("hh:mm A") + ":  :flag-us-ct:  Burlington (Jeremy)";
-  // var lagos = baseTime.clone().tz("Africa/Lagos").format("hh:mm A") + ":  :flag-ng:  Lagos (Seun)";
-  // var bahlingen = baseTime.clone().tz("Europe/Berlin").format("hh:mm A") + ":  :flag-de:  Bahlingen (Michael)";
-  // var nairobi = baseTime.clone().tz("Africa/Nairobi").format("hh:mm A") + ":  :flag-ke:  Nairobi (Joy)";
-  // var bengaluru = baseTime.clone().tz("Asia/Kolkata").format("hh:mm A") + ":  :flag-in:  Bengaluru (Akarshit)";
-  // var manila = baseTime.clone().tz("Asia/Manila").format("hh:mm A") + ":  :flag-ph:  Manila (Brent)";
+  var americaPacific = baseTime.clone().tz("America/Los_Angeles").format("hh:mm A") + ":  :flag-us-ca:  Santa Monica";
+  var americaMountain = baseTime.clone().tz("America/Denver").format("hh:mm A") + ":  :flag-us-co:  Colorado Springs (Spencer)";
+  var americaCentral = baseTime.clone().tz("America/Chicago").format("hh:mm A") + ":  :flag-us-la:  New Orleans (Nat) / :flag-us-wi:  Sheboygan (Eric D.)";
+  var americaEastern = baseTime.clone().tz("America/New_York").format("hh:mm A") + ":  :flag-us-ct:  Burlington (Jeremy)";
+  var lagos = baseTime.clone().tz("Africa/Lagos").format("hh:mm A") + ":  :flag-ng:  Lagos (Seun)";
+  var bahlingen = baseTime.clone().tz("Europe/Berlin").format("hh:mm A") + ":  :flag-de:  Bahlingen (Michael)";
+  var nairobi = baseTime.clone().tz("Africa/Nairobi").format("hh:mm A") + ":  :flag-ke:  Nairobi (Joy)";
+  var bengaluru = baseTime.clone().tz("Asia/Kolkata").format("hh:mm A") + ":  :flag-in:  Bengaluru (Akarshit)";
+  var manila = baseTime.clone().tz("Asia/Manila").format("hh:mm A") + ":  :flag-ph:  Manila (Brent)";
   //
   //
 
