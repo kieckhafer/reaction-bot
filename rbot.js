@@ -297,6 +297,7 @@ controller.hears(["#earthnow"], "direct_message,direct_mention,mention,message_r
  * Los Angeles, Colorado Springs, Connecticut, Lagos, Nairobi, Manila
  */
 controller.hears(["#timezones (.*)"], "direct_message,direct_mention,mention,message_received,ambient", function (bot, message) {
+  bot.reply(message, "baseTime test");
   var inputTime = message.text.match(/#timezones (.*)/i);
   var baseTime = inputTime[1];
 
