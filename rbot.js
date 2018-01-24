@@ -330,7 +330,7 @@ controller.hears(["#findatime (.*)"], "direct_message,direct_mention,mention,mes
   var inputTime = message.text.match(/#findatime (.*)/i);
   var time = inputTime[1];
 
-  var baseInputTime = moment("2018-01-01 " + time).tz("America/Los_Angeles");
+  var baseInputTime = moment().tz("2018-01-01 " + time, "America/Los_Angeles");
 
   var baseTime = baseInputTime.clone().tz("America/Los_Angeles");
 
