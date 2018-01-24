@@ -326,6 +326,12 @@ controller.hears(["#timezones"], "direct_message,direct_mention,mention,message_
  * Los Angeles, Colorado Springs, Connecticut, Lagos, Nairobi, Manila
  */
 controller.hears(["#timezones2"], "direct_message,direct_mention,mention,message_received,ambient", function (bot, message) {
+
+  var baseTime = moment().tz("America/Los_Angeles").format("hh:mm A") + ":  :flag-us-ca:  Santa Monica";
+
+  bot.reply(message, "hello" + baseTime);
+
+
   var americaPacific = moment().tz("America/Los_Angeles").format("hh:mm A") + ":  :flag-us-ca:  Santa Monica";
   var americaMountain = moment().tz("America/Denver").format("hh:mm A") + ":  :flag-us-co:  Colorado Springs (Spencer)";
   var americaCentral = moment().tz("America/Chicago").format("hh:mm A") + ":  :flag-us-la:  New Orleans (Nat) / :flag-us-wi:  Sheboygan (Eric D.)";
