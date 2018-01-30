@@ -331,6 +331,12 @@ controller.hears(["#findatime (.*)"], "direct_message,direct_mention,mention,mes
   var inputTime = message.text.match(/#findatime (.*)/i);
   var time = inputTime[1];
 
+  var colonCheck = time.search(":");
+
+  if (!colonCheck) {
+    time = time.substring(0, time.length - 2) + ":" + time.substring(time.length - 2)
+  }
+
   var baseTime = moment("2018-01-01 " + time);
 
   var americaPacific = baseTime.clone().tz("America/Los_Angeles").format("hh:mm A") + ":  :flag-us-ca:  Santa Monica";
