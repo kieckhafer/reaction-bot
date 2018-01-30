@@ -333,7 +333,7 @@ controller.hears(["#findatime (.*)"], "direct_message,direct_mention,mention,mes
 
   var colonCheck = time.search(":");
 
-  if (!colonCheck) {
+  if (colonCheck === -1) {
     time = time.substring(0, time.length - 2) + ":" + time.substring(time.length - 2)
   }
 
