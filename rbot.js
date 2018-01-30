@@ -330,10 +330,7 @@ controller.hears(["#findatime (.*)"], "direct_message,direct_mention,mention,mes
   var inputTime = message.text.match(/#findatime (.*)/i);
   var time = inputTime[1];
 
-  var baseTime2 = moment("2018-01-01 " + time);
-  var baseTime = baseTime2.clone().tz("America/Los_Angeles");
-
-  bot.reply(message, baseTime);
+  var baseTime = moment("2018-01-01 " + time) - 10800000;
 
   var americaPacific = baseTime.clone().tz("America/Los_Angeles").format("hh:mm A") + ":  :flag-us-ca:  Santa Monica";
   var americaMountain = baseTime.clone().tz("America/Denver").format("hh:mm A") + ":  :flag-us-co:  Colorado Springs (Spencer)";
@@ -346,7 +343,6 @@ controller.hears(["#findatime (.*)"], "direct_message,direct_mention,mention,mes
   var manila = baseTime.clone().tz("Asia/Manila").format("hh:mm A") + ":  :flag-ph:  Manila (Brent)";
 
   bot.reply(message, "Reaction Team times when it's " + time + " in Santa Monica");
-  bot.reply(message, "Reaction Team times when it's " + baseTime + " in Santa Monica" + baseTime2);
   bot.reply(message, americaPacific);
   bot.reply(message, americaMountain);
   bot.reply(message, americaCentral);
