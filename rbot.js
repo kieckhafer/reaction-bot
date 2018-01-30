@@ -337,7 +337,7 @@ controller.hears(["#findatime (.*)"], "direct_message,direct_mention,mention,mes
     time = time.substring(0, time.length - 2) + ":" + time.substring(time.length - 2)
   }
 
-  if (time.length === 3) {
+  if (time.length === 4) {
     time = "0" + time;
   }
 
