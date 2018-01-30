@@ -330,7 +330,8 @@ controller.hears(["#findatime (.*)"], "direct_message,direct_mention,mention,mes
   var inputTime = message.text.match(/#findatime (.*)/i);
   var time = inputTime[1];
 
-  var baseTime = moment("2018-01-01 " + time).tz("America/Los_Angeles");
+  var baseTime2 = moment("2018-01-01 " + time).tz("America/Los_Angeles");
+  var baseTime = baseTime2 - 10800000;
 
   bot.reply(message, baseTime);
 
