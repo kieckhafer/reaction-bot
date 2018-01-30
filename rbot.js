@@ -327,10 +327,11 @@ controller.hears(["#timezones", "#currentTime"], "direct_message,direct_mention,
  * Display timezones based on an inputted time
  */
 controller.hears(["#findatime (.*)"], "direct_message,direct_mention,mention,message_received,ambient", function (bot, message) {
+  moment.tz.setDefault("America/New_York");
   var inputTime = message.text.match(/#findatime (.*)/i);
   var time = inputTime[1];
 
-  var baseTime = moment("2018-01-01 " + time, "America/Los_Angeles");
+  var baseTime = moment("2018-01-01 " + time);
 
   var americaPacific = baseTime.clone().tz("America/Los_Angeles").format("hh:mm A") + ":  :flag-us-ca:  Santa Monica";
   var americaMountain = baseTime.clone().tz("America/Denver").format("hh:mm A") + ":  :flag-us-co:  Colorado Springs (Spencer)";
