@@ -327,7 +327,7 @@ controller.hears(["#timezones", "#currentTime"], "direct_message,direct_mention,
  * Display timezones based on an inputted time
  */
 controller.hears(["#findatime (.*)"], "direct_message,direct_mention,mention,message_received,ambient", function (bot, message) {
-  moment.tz.setDefault("America/New_York");
+  moment.tz.setDefault("America/Los_Angeles");
   var inputTime = message.text.match(/#findatime (.*)/i);
   var time = inputTime[1];
 
