@@ -330,8 +330,8 @@ controller.hears(["#findatime (.*)"], "direct_message,direct_mention,mention,mes
   var inputTime = message.text.match(/#findatime (.*)/i);
   var time = inputTime[1];
 
-  var baseTime2 = moment("2018-01-01 " + time).tz("America/Los_Angeles");
-  var baseTime = baseTime2 - "10800000";
+  var baseTime2 = moment("2018-01-01 " + time);
+  var baseTime = moment(baseTime2).tz("America/Los_Angeles");
 
   bot.reply(message, baseTime);
 
@@ -346,7 +346,7 @@ controller.hears(["#findatime (.*)"], "direct_message,direct_mention,mention,mes
   var manila = baseTime.clone().tz("Asia/Manila").format("hh:mm A") + ":  :flag-ph:  Manila (Brent)";
 
   bot.reply(message, "Reaction Team times when it's " + time + " in Santa Monica");
-  bot.reply(message, "Reaction Team times when it's " + baseTime + " in Santa Monica");
+  bot.reply(message, "Reaction Team times when it's " + baseTime + " in Santa Monica" + baseTime2);
   bot.reply(message, americaPacific);
   bot.reply(message, americaMountain);
   bot.reply(message, americaCentral);
