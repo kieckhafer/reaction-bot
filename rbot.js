@@ -345,6 +345,7 @@ controller.hears(["#findatime (.*)"], "direct_message,direct_mention,mention,mes
   var manila = baseTime.clone().tz("Asia/Manila").format("hh:mm A") + ":  :flag-ph:  Manila (Brent)";
 
   bot.reply(message, "Reaction Team times when it's " + time + " in Santa Monica");
+  bot.reply(message, "Reaction Team times when it's " + baseTime + " in Santa Monica");
   bot.reply(message, americaPacific);
   bot.reply(message, americaMountain);
   bot.reply(message, americaCentral);
