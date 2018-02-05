@@ -129,10 +129,6 @@ TOKEN=<slack-api-key> HIMAWARI_OUTFILE=<path-to-local-image> HIMAWARI_URL=<url-o
 
 Displays current local time of all Reaction team members around the world, or displays any time based off of a time input of Reaction's Santa Monica office (input must be military time).
 ```
-TOKEN=<slack-api-key> HIMAWARI_OUTFILE=<path-to-local-image> HIMAWARI_URL=<url-of-image> node rbot.js
-```
-
-```
 #timezones
 #findatime 2:00
 #findatime 17:00
