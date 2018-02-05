@@ -552,7 +552,14 @@ botReply(["#fatigued", "#fatigado"], [
 ]);
 
 botReply(["#fridaylunch"], [
-    ""
+    "Eataly- Century City",
+    "Big Boi- Sawtelle",
+    "Killer Noodle- Sawtelle",
+    "Flaming Pot- Sawtelle",
+    "Tasty Noodle House- Sawtelle",
+    "Meizhou Dongpo- Century City",
+    "Souplantation- Brentwood",
+    "Maple Block BBQ- Culver City"
 ]);
 
 botReply(["#grim"], [
@@ -586,11 +593,13 @@ botReply(["#lunch"], [
   "Casa Martin",
   "Cava",
   "Cha Cha Chicken ",
-  "Chipotle ",
-  "Hiho ",
+  "Chipotle",
+  "Hiho",
+  "Jinya",
   "Komodo",
   "Mitsuwa",
   "Novel Cafe",
+  "Pie Hole",
   "Phorage",
   "Samosa House",
   "Santa Monica Farms",
@@ -600,11 +609,13 @@ botReply(["#lunch"], [
   "Stella Barra",
   "Sunny Blue",
   "Taco Libre",
-  "Tacos Por Favor ",
+  "Tacos Por Favor",
   "Tender Greens",
   "Thai Vegan",
-  "Coming soon: Buffalo Wild Wings",
-  "Coming soon: Poking",
+  "Buffalo Wild Wings",
+  "Poking Poke",
+  "Wurstkuche",
+  "STRFSH",
   "No food. Go Boxing. :boxing:"
 ]);
 
@@ -631,7 +642,10 @@ botReply(["#pandemonium"], [
 
 botReply(["#richlunch", "#dadispaying"], [
   "Chez Jay",
-  "Lawry's Prime Rib"
+  "Lawry's Prime Rib",
+  "Sugarfish",
+  "Chinois",
+  "The Curious Palate"
 ]);
 
 botReply(["#ripian"], [
