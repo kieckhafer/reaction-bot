@@ -551,6 +551,10 @@ botReply(["#fatigued", "#fatigado"], [
     "http://p.fod4.com/p/media/8e626ba361/wjN8hJWWSnqXwVYvp4ZH_Kid%20Table%20Slide.gif"
 ]);
 
+botReply(["#fridaylunch"], [
+    ""
+]);
+
 botReply(["#grim"], [
     "http://i.imgur.com/cIwwfJ9.gif"
 ]);
