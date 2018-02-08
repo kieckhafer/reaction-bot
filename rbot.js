@@ -315,7 +315,6 @@ controller.hears(["#timezones", "#currentTime"], "direct_message,direct_mention,
   bot.reply(message, americaEastern);
   bot.reply(message, lagos);
   bot.reply(message, bahlingen);
-  bot.reply(message, nairobi);
   bot.reply(message, bengaluru);
   bot.reply(message, manila);
 });
@@ -348,7 +347,6 @@ controller.hears(["#findatime (.*)"], "direct_message,direct_mention,mention,mes
   var americaEastern = baseTime.clone().tz("America/New_York").format("hh:mm A") + ":  :flag-us-ct:  Burlington (Jeremy)";
   var lagos = baseTime.clone().tz("Africa/Lagos").format("hh:mm A") + ":  :flag-ng:  Lagos (Seun)";
   var bahlingen = baseTime.clone().tz("Europe/Berlin").format("hh:mm A") + ":  :flag-de:  Bahlingen (Michael)";
-  var nairobi = baseTime.clone().tz("Africa/Nairobi").format("hh:mm A") + ":  :flag-ke:  Nairobi (Joy)";
   var bengaluru = baseTime.clone().tz("Asia/Kolkata").format("hh:mm A") + ":  :flag-in:  Bengaluru (Akarshit)";
   var manila = baseTime.clone().tz("Asia/Manila").format("hh:mm A") + ":  :flag-ph:  Manila (Brent)";
 
@@ -359,7 +357,6 @@ controller.hears(["#findatime (.*)"], "direct_message,direct_mention,mention,mes
   bot.reply(message, americaEastern);
   bot.reply(message, lagos);
   bot.reply(message, bahlingen);
-  bot.reply(message, nairobi);
   bot.reply(message, bengaluru);
   bot.reply(message, manila);
 });
