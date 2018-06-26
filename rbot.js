@@ -299,13 +299,13 @@ controller.hears(["#earthnow"], "direct_message,direct_mention,mention,message_r
 controller.hears(["#timezones", "#currentTime"], "direct_message,direct_mention,mention,message_received,ambient", function (bot, message) {
   var baseTime = moment().tz("America/Los_Angeles");
 
-  var americaPacific = baseTime.clone().tz("America/Los_Angeles").format("hh:mm A") + ":  :flag-us-ca:  Santa Monica / :flag-us-az:  Phoenix (Vishal)";
-  var americaMountain = baseTime.clone().tz("America/Denver").format("hh:mm A") + ":  :flag-us-co:  Colorado Springs (Spencer) / :flag-us-ut:  Park City (Cassy)";
-  var americaCentral = baseTime.clone().tz("America/Chicago").format("hh:mm A") + ":  :flag-us-la:  New Orleans (Nat) / :flag-us-wi:  Sheboygan (Eric D.)";
-  var americaEastern = baseTime.clone().tz("America/New_York").format("hh:mm A") + ":  :flag-us-ct:  Burlington (Jeremy)";
-  var lagos = baseTime.clone().tz("Africa/Lagos").format("hh:mm A") + ":  :flag-ng:  Lagos (Seun)";
-  var bengaluru = baseTime.clone().tz("Asia/Kolkata").format("hh:mm A") + ":  :flag-in:  Bengaluru (Akarshit)";
-  var manila = baseTime.clone().tz("Asia/Manila").format("hh:mm A") + ":  :flag-ph:  Manila (Brent)";
+  var americaPacific = baseTime.clone().tz("America/Los_Angeles").format("hh:mm A") + ":  :flag-us-ca:  Santa Monica / :flag-us-az:  Phoenix";
+  var americaMountain = baseTime.clone().tz("America/Denver").format("hh:mm A") + ":  :flag-us-co:  Colorado / :flag-us-ut:  Park City";
+  var americaCentral = baseTime.clone().tz("America/Chicago").format("hh:mm A") + ":  :flag-us-la:  New Orleans / :flag-us-wi:  Sheboygan";
+  var americaEastern = baseTime.clone().tz("America/New_York").format("hh:mm A") + ":  :flag-us-ny:  New York City";
+  var lagos = baseTime.clone().tz("Africa/Lagos").format("hh:mm A") + ":  :flag-ng:  Lagos";
+  var bengaluru = baseTime.clone().tz("Asia/Kolkata").format("hh:mm A") + ":  :flag-in:  Bengaluru";
+  var manila = baseTime.clone().tz("Asia/Manila").format("hh:mm A") + ":  :flag-ph:  Manila";
 
   bot.reply(message, "Reaction Team Time Zones");
   bot.reply(message, americaPacific);
@@ -339,13 +339,13 @@ controller.hears(["#findatime (.*)"], "direct_message,direct_mention,mention,mes
 
   var baseTime = moment("2018-01-01 " + time);
 
-  var americaPacific = baseTime.clone().tz("America/Los_Angeles").format("hh:mm A") + ":  :flag-us-ca:  Santa Monica / :flag-us-az:  Phoenix (Vishal)";
-  var americaMountain = baseTime.clone().tz("America/Denver").format("hh:mm A") + ":  :flag-us-co:  Colorado Springs (Spencer) / :flag-us-ut:  Park City (Cassy)";
-  var americaCentral = baseTime.clone().tz("America/Chicago").format("hh:mm A") + ":  :flag-us-la:  New Orleans (Nat) / :flag-us-wi:  Sheboygan (Eric D.)";
-  var americaEastern = baseTime.clone().tz("America/New_York").format("hh:mm A") + ":  :flag-us-ct:  Burlington (Jeremy)";
-  var lagos = baseTime.clone().tz("Africa/Lagos").format("hh:mm A") + ":  :flag-ng:  Lagos (Seun)";
-  var bengaluru = baseTime.clone().tz("Asia/Kolkata").format("hh:mm A") + ":  :flag-in:  Bengaluru (Akarshit)";
-  var manila = baseTime.clone().tz("Asia/Manila").format("hh:mm A") + ":  :flag-ph:  Manila (Brent)";
+  var americaPacific = baseTime.clone().tz("America/Los_Angeles").format("hh:mm A") + ":  :flag-us-ca:  Santa Monica / :flag-us-az:  Phoenix";
+  var americaMountain = baseTime.clone().tz("America/Denver").format("hh:mm A") + ":  :flag-us-co:  Colorado / :flag-us-ut:  Park City";
+  var americaCentral = baseTime.clone().tz("America/Chicago").format("hh:mm A") + ":  :flag-us-la:  New Orleans / :flag-us-wi:  Sheboygan";
+  var americaEastern = baseTime.clone().tz("America/New_York").format("hh:mm A") + ":  :flag-us-ny:  New York City";
+  var lagos = baseTime.clone().tz("Africa/Lagos").format("hh:mm A") + ":  :flag-ng:  Lagos";
+  var bengaluru = baseTime.clone().tz("Asia/Kolkata").format("hh:mm A") + ":  :flag-in:  Bengaluru";
+  var manila = baseTime.clone().tz("Asia/Manila").format("hh:mm A") + ":  :flag-ph:  Manila";
 
   bot.reply(message, "Reaction Team times when it's " + time + " in Santa Monica");
   bot.reply(message, americaPacific);
