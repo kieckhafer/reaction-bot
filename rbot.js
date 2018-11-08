@@ -299,13 +299,12 @@ controller.hears(["#earthnow"], "direct_message,direct_mention,mention,message_r
 controller.hears(["#timezones", "#currentTime"], "direct_message,direct_mention,mention,message_received,ambient", function (bot, message) {
   var baseTime = moment().tz("America/Los_Angeles");
 
-  var americaPacific = baseTime.clone().tz("America/Los_Angeles").format("hh:mm A") + ":  :flag-us-ca:  Santa Monica / California";
-  var americaMountain = baseTime.clone().tz("America/Denver").format("hh:mm A") + ":  :flag-us-az:  Arizona / :flag-us-co:  Colorado / :flag-us-ut:  Utah";
-  var americaCentral = baseTime.clone().tz("America/Chicago").format("hh:mm A") + ":  :flag-us-la:  Louisiana / :flag-us-wi:  Wisconsin";
-  var americaEastern = baseTime.clone().tz("America/New_York").format("hh:mm A") + ":  :flag-us-ma:  Massachutsetts / :flag-us-ny:  New York / :flag-us-oh:  Ohio";
-  var lagos = baseTime.clone().tz("Africa/Lagos").format("hh:mm A") + ":  :flag-de:  Berlin / :flag-ng:  Lagos";
-  var lucknow = baseTime.clone().tz("Asia/Kolkata").format("hh:mm A") + ":  :flag-in:  Lucknow";
-  var bangkok = baseTime.clone().tz("Asia/Bangkok").format("hh:mm A") + ":  :flag-th:  Bangkok";
+  var americaPacific = baseTime.clone().tz("America/Los_Angeles").format("hh:mm A") + ":  :flag-us-ca:  Santa Monica / :flag-us-az:  Phoenix";
+  var americaMountain = baseTime.clone().tz("America/Denver").format("hh:mm A") + ":  :flag-us-co:  Colorado / :flag-us-ut:  Park City";
+  var americaCentral = baseTime.clone().tz("America/Chicago").format("hh:mm A") + ":  :flag-us-la:  New Orleans / :flag-us-wi:  Sheboygan";
+  var americaEastern = baseTime.clone().tz("America/New_York").format("hh:mm A") + ":  :flag-us-ny:  New York City";
+  var lagos = baseTime.clone().tz("Africa/Lagos").format("hh:mm A") + ":  :flag-ng:  Lagos";
+  var bengaluru = baseTime.clone().tz("Asia/Kolkata").format("hh:mm A") + ":  :flag-in:  Bengaluru";
   var manila = baseTime.clone().tz("Asia/Manila").format("hh:mm A") + ":  :flag-ph:  Manila";
 
   bot.reply(message, "Reaction Team Time Zones");
@@ -314,8 +313,7 @@ controller.hears(["#timezones", "#currentTime"], "direct_message,direct_mention,
   bot.reply(message, americaCentral);
   bot.reply(message, americaEastern);
   bot.reply(message, lagos);
-  bot.reply(message, lucknow);
-  bot.reply(message, bangkok);
+  bot.reply(message, bengaluru);
   bot.reply(message, manila);
 });
 
@@ -341,13 +339,12 @@ controller.hears(["#findatime (.*)"], "direct_message,direct_mention,mention,mes
 
   var baseTime = moment("2018-01-01 " + time);
 
-  var americaPacific = baseTime.clone().tz("America/Los_Angeles").format("hh:mm A") + ":  :flag-us-ca:  Santa Monica / California";
-  var americaMountain = baseTime.clone().tz("America/Denver").format("hh:mm A") + ":  :flag-us-az:  Arizona / :flag-us-co:  Colorado / :flag-us-ut:  Utah";
-  var americaCentral = baseTime.clone().tz("America/Chicago").format("hh:mm A") + ":  :flag-us-la:  Louisiana / :flag-us-wi:  Wisconsin";
-  var americaEastern = baseTime.clone().tz("America/New_York").format("hh:mm A") + ":  :flag-us-ma:  Massachutsetts / :flag-us-ny:  New York / :flag-us-oh:  Ohio";
-  var lagos = baseTime.clone().tz("Africa/Lagos").format("hh:mm A") + ":  :flag-de:  Berlin / :flag-ng:  Lagos";
-  var lucknow = baseTime.clone().tz("Asia/Kolkata").format("hh:mm A") + ":  :flag-in:  Lucknow";
-  var bangkok = baseTime.clone().tz("Asia/Bangkok").format("hh:mm A") + ":  :flag-th:  Bangkok";
+  var americaPacific = baseTime.clone().tz("America/Los_Angeles").format("hh:mm A") + ":  :flag-us-ca:  Santa Monica / :flag-us-az:  Phoenix";
+  var americaMountain = baseTime.clone().tz("America/Denver").format("hh:mm A") + ":  :flag-us-co:  Colorado / :flag-us-ut:  Park City";
+  var americaCentral = baseTime.clone().tz("America/Chicago").format("hh:mm A") + ":  :flag-us-la:  New Orleans / :flag-us-wi:  Sheboygan";
+  var americaEastern = baseTime.clone().tz("America/New_York").format("hh:mm A") + ":  :flag-us-ny:  New York City";
+  var lagos = baseTime.clone().tz("Africa/Lagos").format("hh:mm A") + ":  :flag-ng:  Lagos";
+  var bengaluru = baseTime.clone().tz("Asia/Kolkata").format("hh:mm A") + ":  :flag-in:  Bengaluru";
   var manila = baseTime.clone().tz("Asia/Manila").format("hh:mm A") + ":  :flag-ph:  Manila";
 
   bot.reply(message, "Reaction Team times when it's " + time + " in Santa Monica");
@@ -356,8 +353,7 @@ controller.hears(["#findatime (.*)"], "direct_message,direct_mention,mention,mes
   bot.reply(message, americaCentral);
   bot.reply(message, americaEastern);
   bot.reply(message, lagos);
-  bot.reply(message, lucknow);
-  bot.reply(message, bangkok);
+  bot.reply(message, bengaluru);
   bot.reply(message, manila);
 });
 
