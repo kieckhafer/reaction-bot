@@ -221,7 +221,8 @@ controller.hears(["#choppertime (.*)"], "direct_message,direct_mention,mention,m
           destCoords.lat = data.results[0].geometry.location.lat;
           destCoords.lng = data.results[0].geometry.location.lng;
 
-          distanceAsTheKobeFlies = getDistance(reactionCoords, destCoords);
+          distanceAsTheKobeFlies = 1000;
+          // distanceAsTheKobeFlies = getDistance(reactionCoords, destCoords);
 
           // average chopper speed is 240km/h, slow LA choppers migh tbe 200km or so
           // source http://phys.org/news/2011-05-eurocopter-x3-world-fastest-copter.html
