@@ -717,14 +717,14 @@ Helper functions
  * Distance calculation for #choppertime
  * http://stackoverflow.com/questions/1502590/calculate-distance-between-two-points-in-google-maps-v3
  */
-function getDistance({lat, lng}, {lat, lng}) {
+function getDistance({latA, lngA}, {latB, lngB}) {
 
   const rad = x => x * Math.PI / 180;
 
   const R = 6378137; // Earth’s mean radius in meters
 
-  const dLat = rad(lat - lat);
-  const dLong = rad(lng - lng);
+  const dLat = rad(latA - latB);
+  const dLong = rad(lngA - lngB);
 
   const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
     Math.cos(rad(lat)) * Math.cos(rad(lat)) *
