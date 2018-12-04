@@ -95,307 +95,307 @@ controller.hears(["#bothelp", "#bothelp-long"], "direct_message,direct_mention,m
 });
 
 
-/**
- * #drivetime <address/zip/landmark>, #biketime <address/zip/landmark>, #walktime <address/zip/landmark>
- * How long would it take drive, walk, or bike to your destination from the Reaction Commerce Santa Monica office?
- * Response includes real-time traffic data from Google
- * Requires a Google API key to be passed as a session variable during startup
- * MAPS_API=<google-maps-api-key>
- */
-controller.hears(["#drivetime (.*)", "#walktime (.*)", "#biketime (.*)"], "direct_message,direct_mention,mention,message_received,ambient", (bot, message) => {
-  const reactionAddress = "2110+Main+St,+Santa+Monica,+CA+90405";
-  let _hash = message.text.trimLeft();
-  _hash = _hash.slice(0, message.text.indexOf(" "));
-  const _regExp = new RegExp(`${_hash} (.*)`, "i");
-  const inputAddress = message.text.match(_regExp);
-  const destinationAddress = inputAddress[1];
-  const encodedDestinationAddress = encodeURIComponent(destinationAddress);
-  const modes = {
-    "#walktime": "walking",
-    "#biketime": "bicycling"
-  };
-  const attch_text = {
-    "#drivetime": ":car: :bus: :truck: :bus: :car:",
-    "#walktime": ":walking: :walking::skin-tone-2: :walking::skin-tone-3: :walking::skin-tone-4: :walking::skin-tone-5:",
-    "#biketime": ":bicyclist: :bicyclist::skin-tone-2: :bicyclist::skin-tone-3: :bicyclist::skin-tone-4: :bicyclist::skin-tone-5:"
-  };
-  let _error = false;
-  const trafficModel = (_hash == "#drivetime") ? "&traffic_model=best_guess" : "";
-  const currentMode = (modes[_hash]) ? `&mode=${modes[_hash]}` : "";
-  const apiKey = process.env.MAPS_API;
-  const apiUrl = `https://maps.googleapis.com/maps/api/directions/json?departure_time=now${currentMode}${trafficModel}&c&origin=${reactionAddress}&destination=${encodedDestinationAddress}&key=${apiKey}`;
-  const googleMapsUrl = `https://www.google.com/maps/dir/${reactionAddress}/${encodedDestinationAddress}`;
-  const request = new XMLHttpRequest();
+// /**
+//  * #drivetime <address/zip/landmark>, #biketime <address/zip/landmark>, #walktime <address/zip/landmark>
+//  * How long would it take drive, walk, or bike to your destination from the Reaction Commerce Santa Monica office?
+//  * Response includes real-time traffic data from Google
+//  * Requires a Google API key to be passed as a session variable during startup
+//  * MAPS_API=<google-maps-api-key>
+//  */
+// controller.hears(["#drivetime (.*)", "#walktime (.*)", "#biketime (.*)"], "direct_message,direct_mention,mention,message_received,ambient", (bot, message) => {
+//   const reactionAddress = "2110+Main+St,+Santa+Monica,+CA+90405";
+//   let _hash = message.text.trimLeft();
+//   _hash = _hash.slice(0, message.text.indexOf(" "));
+//   const _regExp = new RegExp(`${_hash} (.*)`, "i");
+//   const inputAddress = message.text.match(_regExp);
+//   const destinationAddress = inputAddress[1];
+//   const encodedDestinationAddress = encodeURIComponent(destinationAddress);
+//   const modes = {
+//     "#walktime": "walking",
+//     "#biketime": "bicycling"
+//   };
+//   const attch_text = {
+//     "#drivetime": ":car: :bus: :truck: :bus: :car:",
+//     "#walktime": ":walking: :walking::skin-tone-2: :walking::skin-tone-3: :walking::skin-tone-4: :walking::skin-tone-5:",
+//     "#biketime": ":bicyclist: :bicyclist::skin-tone-2: :bicyclist::skin-tone-3: :bicyclist::skin-tone-4: :bicyclist::skin-tone-5:"
+//   };
+//   let _error = false;
+//   const trafficModel = (_hash == "#drivetime") ? "&traffic_model=best_guess" : "";
+//   const currentMode = (modes[_hash]) ? `&mode=${modes[_hash]}` : "";
+//   const apiKey = process.env.MAPS_API;
+//   const apiUrl = `https://maps.googleapis.com/maps/api/directions/json?departure_time=now${currentMode}${trafficModel}&c&origin=${reactionAddress}&destination=${encodedDestinationAddress}&key=${apiKey}`;
+//   const googleMapsUrl = `https://www.google.com/maps/dir/${reactionAddress}/${encodedDestinationAddress}`;
+//   const request = new XMLHttpRequest();
 
-  request.open("GET", apiUrl, true);
+//   request.open("GET", apiUrl, true);
 
-  request.onload = () => {
-    if (request.status >= 200 && request.status < 400) {
-      // Success!
-      const data = JSON.parse(request.responseText);
-      driveTime = getDriveTime(data, _hash);
-      const xTime = _hash.slice(1);
-      const driveTimeOutput = `${xTime} to ${destinationAddress} is ${driveTime}`;
+//   request.onload = () => {
+//     if (request.status >= 200 && request.status < 400) {
+//       // Success!
+//       const data = JSON.parse(request.responseText);
+//       driveTime = getDriveTime(data, _hash);
+//       const xTime = _hash.slice(1);
+//       const driveTimeOutput = `${xTime} to ${destinationAddress} is ${driveTime}`;
 
-      // To Do - convert time from googles output (5 hours, 21 mins - 1 hour, 1 minute - 20 minutes) to plain old minutes
-      const driveTimeMinutes = driveTime;
-      // To Do - convert time from googles output (5 hours, 21 mins - 1 hour, 1 minute - 20 minutes) to plain old minutes
+//       // To Do - convert time from googles output (5 hours, 21 mins - 1 hour, 1 minute - 20 minutes) to plain old minutes
+//       const driveTimeMinutes = driveTime;
+//       // To Do - convert time from googles output (5 hours, 21 mins - 1 hour, 1 minute - 20 minutes) to plain old minutes
 
-      if (driveTimeMinutes <= "30") {
-        var driveTimeImages = ["http://i.giphy.com/YlQQYUIEAZ76o.gif", "http://i.giphy.com/IKhGMGrXm0C6Q.gif"];
-      } else if (driveTimeMinutes <= "60") {
-        var driveTimeImages = ["http://i.giphy.com/l6mxLLvfadIQw.gif"];
-      } else {
-        var driveTimeImages = ["http://i.giphy.com/mrpNRAKIALT5C.gif"];
-      }
+//       if (driveTimeMinutes <= "30") {
+//         var driveTimeImages = ["http://i.giphy.com/YlQQYUIEAZ76o.gif", "http://i.giphy.com/IKhGMGrXm0C6Q.gif"];
+//       } else if (driveTimeMinutes <= "60") {
+//         var driveTimeImages = ["http://i.giphy.com/l6mxLLvfadIQw.gif"];
+//       } else {
+//         var driveTimeImages = ["http://i.giphy.com/mrpNRAKIALT5C.gif"];
+//       }
 
-      const driveTimeImage = driveTimeImages[Math.floor(Math.random() * driveTimeImages.length)];
+//       const driveTimeImage = driveTimeImages[Math.floor(Math.random() * driveTimeImages.length)];
 
-      bot.reply(message, `${driveTimeOutput} :car: :bus: :bus: :car: ${driveTimeImage}`);
-    } else {
-      // We reached our target server, but it returned an error
-      _error = true;
-    }
-  };
+//       bot.reply(message, `${driveTimeOutput} :car: :bus: :bus: :car: ${driveTimeImage}`);
+//     } else {
+//       // We reached our target server, but it returned an error
+//       _error = true;
+//     }
+//   };
 
-  request.onerror = () => {
-    _error = true;
-  };
+//   request.onerror = () => {
+//     _error = true;
+//   };
 
-  if (_error) {
-    bot.reply(message, `${xTime} to ${destinationAddress} is currently unknown due to an API error. Hopefully you can see it on Google Maps: ${googleMapsUrl}`);
-  }
+//   if (_error) {
+//     bot.reply(message, `${xTime} to ${destinationAddress} is currently unknown due to an API error. Hopefully you can see it on Google Maps: ${googleMapsUrl}`);
+//   }
 
-  request.send();
-});
+//   request.send();
+// });
 
-function getDriveTime({routes}, _hash) {
-  let drivetime;
-  const trafficText = (_hash == "#drivetime") ? ". Traffic is not included in this route." : "";
-  if (routes[0]) {
-    if (_hash == "#drivetime" && routes[0].legs[0].duration_in_traffic) {
-      driveTime = routes[0].legs[0].duration_in_traffic.text;
-    } else {
-      if (routes[0].legs[0].duration) {
-        driveTime = routes[0].legs[0].duration.text + trafficText;
-      } else {
-        driveTime = "not available. Please try another query.";
-      }
-    }
-  } else {
-    driveTime = "not available. Please try another more specific query - or a location that\"s not overseas.";
-  }
+// function getDriveTime({routes}, _hash) {
+//   let drivetime;
+//   const trafficText = (_hash == "#drivetime") ? ". Traffic is not included in this route." : "";
+//   if (routes[0]) {
+//     if (_hash == "#drivetime" && routes[0].legs[0].duration_in_traffic) {
+//       driveTime = routes[0].legs[0].duration_in_traffic.text;
+//     } else {
+//       if (routes[0].legs[0].duration) {
+//         driveTime = routes[0].legs[0].duration.text + trafficText;
+//       } else {
+//         driveTime = "not available. Please try another query.";
+//       }
+//     }
+//   } else {
+//     driveTime = "not available. Please try another more specific query - or a location that\"s not overseas.";
+//   }
 
-  return driveTime;
-}
-
-
-/**
- * #choppertime <address/zip/landmark>
- * How long would it take to Chopper to your destination from the Reaction Commerce Santa Monica office?
- * Inspired by Kobe Bryant, LA Chopper King
- * Requires a Google API key to be passed as a session variable during startup
- * MAPS_API=<google-maps-api-key>
- */
-controller.hears(["#choppertime (.*)"], "direct_message,direct_mention,mention,message_received,ambient", (bot, message) => {
-  // calculation is done in lattitue / longitude
-  reactionCoords = {};
-  destCoords = {};
-  reactionCoords.lat = "34.006008";
-  reactionCoords.lng = "-118.4886012";
-  const inputAddress = message.text.match(/#choppertime (.*)/i);
-  const destinationAddress = inputAddress[1];
-  const encodedDestinationAddress = encodeURIComponent(destinationAddress);
-  const apiKey = process.env.MAPS_API;
-  // get destination coords
-  const apiUrl = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodedDestinationAddress}&key=${apiKey}`;
-  const request = new XMLHttpRequest();
-  request.open("GET", apiUrl, true);
-
-  request.onload = () => {
-    if (request.status >= 200 && request.status < 400) {
-      // Success!
-      const data = JSON.parse(request.responseText);
-      if (data.results[0]) {
-        if (data.results[0].geometry.location) {
-          destCoords.lat = data.results[0].geometry.location.lat;
-          destCoords.lng = data.results[0].geometry.location.lng;
-
-          distanceAsTheKobeFlies = getDistance(reactionCoords, destCoords);
-
-          // average chopper speed is 240km/h, slow LA choppers migh tbe 200km or so
-          // source http://phys.org/news/2011-05-eurocopter-x3-world-fastest-copter.html
-          chopperTimeRaw = distanceAsTheKobeFlies / 200;
-
-          // add takeoff, up-to-speed, and landing time.. about 8 min = .12 hr
-          chopperTimeRaw = chopperTimeRaw + .12;
-
-          // get a pretty time
-          chopperTimeReadable = getHHMM(chopperTimeRaw);
-
-          var chopperTimeOutput = `It would take ${chopperTimeReadable} for Kode Brian to travel to ${destinationAddress}`;
-        } else {
-          const chopperTimeOuput = "There was some unknown issue finding the coordinates of your desto.";
-        }
-      } else {
-        var chopperTimeOutput = "No results. Please try another, more specific query.";
-      }
-      bot.reply(message, `:helicopter: :kobe: ${chopperTimeOutput} :kobe: :helicopter:`);
-    } else {
-      // We reached our target server, but it returned an error
-      bot.reply(message, `Choppertime to ${destinationAddress} is currently unknown due to an API error.`);
-    }
-  };
-
-  request.onerror = () => {
-    bot.reply(message, `Choppertime to ${destinationAddress} is currently unknown due to an API error.`);
-  };
-  request.send();
-});
+//   return driveTime;
+// }
 
 
-/**
- * #earthnow
- * Download real-time images of Earth from the Himawari-8 satellite
- * Requires two extra parameters to be passed as session variables during startup
- * HIMAWARI_OUTFILE=<path-to-local-image>
- * HIMAWARI_URL=<url-of-image> node rbot.js
- */
-controller.hears(["#earthnow"], "direct_message,direct_mention,mention,message_received,ambient", (bot, message) => {
-  bot.reply(message, "generating image from Himawari-8 satellite...");
-  const outfilePath = process.env.HIMAWARI_OUTFILE;
-  const himawariImageUrl = process.env.HIMAWARI_URL;
-  himawari({
-    zoom: 1,
-    date: "latest", // Or new Date() or a date string
-    debug: false,
-    infrared: false,
-    outfile: outfilePath,
-    parallel: false,
-    skipEmpty: true,
-    timeout: 30000,
-    urls: false,
-    success() {
-      // added ms to prevent Slack from caching images. Not like the planet"s view is gonna change much :P
-      bot.reply(message, `${himawariImageUrl}?ms=${(new Date()).getMilliseconds()}`);
-      // process.exit();
-    },
-    error(err) {
-      console.log(err);
-      bot.reply("Satelite Server is probably down.");
-    },
-    chunk({outfile, part, total}) {
-      console.log(`${outfile}: ${part}/${total}`);
-    }
-  });
-});
+// /**
+//  * #choppertime <address/zip/landmark>
+//  * How long would it take to Chopper to your destination from the Reaction Commerce Santa Monica office?
+//  * Inspired by Kobe Bryant, LA Chopper King
+//  * Requires a Google API key to be passed as a session variable during startup
+//  * MAPS_API=<google-maps-api-key>
+//  */
+// controller.hears(["#choppertime (.*)"], "direct_message,direct_mention,mention,message_received,ambient", (bot, message) => {
+//   // calculation is done in lattitue / longitude
+//   reactionCoords = {};
+//   destCoords = {};
+//   reactionCoords.lat = "34.006008";
+//   reactionCoords.lng = "-118.4886012";
+//   const inputAddress = message.text.match(/#choppertime (.*)/i);
+//   const destinationAddress = inputAddress[1];
+//   const encodedDestinationAddress = encodeURIComponent(destinationAddress);
+//   const apiKey = process.env.MAPS_API;
+//   // get destination coords
+//   const apiUrl = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodedDestinationAddress}&key=${apiKey}`;
+//   const request = new XMLHttpRequest();
+//   request.open("GET", apiUrl, true);
+
+//   request.onload = () => {
+//     if (request.status >= 200 && request.status < 400) {
+//       // Success!
+//       const data = JSON.parse(request.responseText);
+//       if (data.results[0]) {
+//         if (data.results[0].geometry.location) {
+//           destCoords.lat = data.results[0].geometry.location.lat;
+//           destCoords.lng = data.results[0].geometry.location.lng;
+
+//           distanceAsTheKobeFlies = getDistance(reactionCoords, destCoords);
+
+//           // average chopper speed is 240km/h, slow LA choppers migh tbe 200km or so
+//           // source http://phys.org/news/2011-05-eurocopter-x3-world-fastest-copter.html
+//           chopperTimeRaw = distanceAsTheKobeFlies / 200;
+
+//           // add takeoff, up-to-speed, and landing time.. about 8 min = .12 hr
+//           chopperTimeRaw = chopperTimeRaw + .12;
+
+//           // get a pretty time
+//           chopperTimeReadable = getHHMM(chopperTimeRaw);
+
+//           var chopperTimeOutput = `It would take ${chopperTimeReadable} for Kode Brian to travel to ${destinationAddress}`;
+//         } else {
+//           const chopperTimeOuput = "There was some unknown issue finding the coordinates of your desto.";
+//         }
+//       } else {
+//         var chopperTimeOutput = "No results. Please try another, more specific query.";
+//       }
+//       bot.reply(message, `:helicopter: :kobe: ${chopperTimeOutput} :kobe: :helicopter:`);
+//     } else {
+//       // We reached our target server, but it returned an error
+//       bot.reply(message, `Choppertime to ${destinationAddress} is currently unknown due to an API error.`);
+//     }
+//   };
+
+//   request.onerror = () => {
+//     bot.reply(message, `Choppertime to ${destinationAddress} is currently unknown due to an API error.`);
+//   };
+//   request.send();
+// });
 
 
-/**
- * #timezones
- * Display current time for all Reaction team members across the world
- * Los Angeles, Colorado Springs, Connecticut, Lagos, Nairobi, Manila
- */
-controller.hears(["#timezones", "#currentTime"], "direct_message,direct_mention,mention,message_received,ambient", (bot, message) => {
-  const baseTime = moment().tz("America/Los_Angeles");
-
-  const americaPacific = `${baseTime.clone().tz("America/Los_Angeles").format("hh:mm A")}:  :flag-us-ca:  Santa Monica / California`;
-  const americaMountain = `${baseTime.clone().tz("America/Denver").format("hh:mm A")}:  :flag-us-az:  Arizona / :flag-us-co:  Colorado / :flag-us-ut:  Utah`;
-  const americaCentral = `${baseTime.clone().tz("America/Chicago").format("hh:mm A")}:  :flag-us-la:  Louisiana / :flag-us-wi:  Wisconsin`;
-  const americaEastern = `${baseTime.clone().tz("America/New_York").format("hh:mm A")}:  :flag-us-ma:  Massachusetts / :flag-us-ny:  New York / :flag-us-oh:  Ohio`;
-  const lagos = `${baseTime.clone().tz("Africa/Lagos").format("hh:mm A")}:  :flag-de:  Berlin / :flag-ng:  Lagos`;
-  const lucknow = `${baseTime.clone().tz("Asia/Kolkata").format("hh:mm A")}:  :flag-in:  Lucknow`;
-  const bangkok = `${baseTime.clone().tz("Asia/Bangkok").format("hh:mm A")}:  :flag-th:  Bangkok`;
-  const manila = `${baseTime.clone().tz("Asia/Manila").format("hh:mm A")}:  :flag-ph:  Manila`;
-
-  bot.reply(message, "Reaction Team Time Zones");
-  bot.reply(message, americaPacific);
-  bot.reply(message, americaMountain);
-  bot.reply(message, americaCentral);
-  bot.reply(message, americaEastern);
-  bot.reply(message, lagos);
-  bot.reply(message, lucknow);
-  bot.reply(message, bangkok);
-  bot.reply(message, manila);
-});
-
-
-/**
- * #findatime
- * Display timezones based on an inputted time
- */
-controller.hears(["#findatime (.*)"], "direct_message,direct_mention,mention,message_received,ambient", (bot, message) => {
-  moment.tz.setDefault("America/Los_Angeles");
-  const inputTime = message.text.match(/#findatime (.*)/i);
-  let time = inputTime[1];
-
-  const colonCheck = time.search(":");
-
-  if (colonCheck === -1) {
-    time = `${time.substring(0, time.length - 2)}:${time.substring(time.length - 2)}`
-  }
-
-  if (time.length === 4) {
-    time = `0${time}`;
-  }
-
-  const baseTime = moment(`2018-01-01 ${time}`);
-
-  const americaPacific = `${baseTime.clone().tz("America/Los_Angeles").format("hh:mm A")}:  :flag-us-ca:  Santa Monica / California`;
-  const americaMountain = `${baseTime.clone().tz("America/Denver").format("hh:mm A")}:  :flag-us-az:  Arizona / :flag-us-co:  Colorado / :flag-us-ut:  Utah`;
-  const americaCentral = `${baseTime.clone().tz("America/Chicago").format("hh:mm A")}:  :flag-us-la:  Louisiana / :flag-us-wi:  Wisconsin`;
-  const americaEastern = `${baseTime.clone().tz("America/New_York").format("hh:mm A")}:  :flag-us-ma:  Massachusetts / :flag-us-ny:  New York / :flag-us-oh:  Ohio`;
-  const lagos = `${baseTime.clone().tz("Africa/Lagos").format("hh:mm A")}:  :flag-de:  Berlin / :flag-ng:  Lagos`;
-  const lucknow = `${baseTime.clone().tz("Asia/Kolkata").format("hh:mm A")}:  :flag-in:  Lucknow`;
-  const bangkok = `${baseTime.clone().tz("Asia/Bangkok").format("hh:mm A")}:  :flag-th:  Bangkok`;
-  const manila = `${baseTime.clone().tz("Asia/Manila").format("hh:mm A")}:  :flag-ph:  Manila`;
-
-  bot.reply(message, `Reaction Team times when it's ${time} in Santa Monica`);
-  bot.reply(message, americaPacific);
-  bot.reply(message, americaMountain);
-  bot.reply(message, americaCentral);
-  bot.reply(message, americaEastern);
-  bot.reply(message, lagos);
-  bot.reply(message, lucknow);
-  bot.reply(message, bangkok);
-  bot.reply(message, manila);
-});
+// /**
+//  * #earthnow
+//  * Download real-time images of Earth from the Himawari-8 satellite
+//  * Requires two extra parameters to be passed as session variables during startup
+//  * HIMAWARI_OUTFILE=<path-to-local-image>
+//  * HIMAWARI_URL=<url-of-image> node rbot.js
+//  */
+// controller.hears(["#earthnow"], "direct_message,direct_mention,mention,message_received,ambient", (bot, message) => {
+//   bot.reply(message, "generating image from Himawari-8 satellite...");
+//   const outfilePath = process.env.HIMAWARI_OUTFILE;
+//   const himawariImageUrl = process.env.HIMAWARI_URL;
+//   himawari({
+//     zoom: 1,
+//     date: "latest", // Or new Date() or a date string
+//     debug: false,
+//     infrared: false,
+//     outfile: outfilePath,
+//     parallel: false,
+//     skipEmpty: true,
+//     timeout: 30000,
+//     urls: false,
+//     success() {
+//       // added ms to prevent Slack from caching images. Not like the planet"s view is gonna change much :P
+//       bot.reply(message, `${himawariImageUrl}?ms=${(new Date()).getMilliseconds()}`);
+//       // process.exit();
+//     },
+//     error(err) {
+//       console.log(err);
+//       bot.reply("Satelite Server is probably down.");
+//     },
+//     chunk({outfile, part, total}) {
+//       console.log(`${outfile}: ${part}/${total}`);
+//     }
+//   });
+// });
 
 
-/**
- * #stargazers
- * Retrieve number of stargazers for the Reaction Commerce Github repository
- */
-controller.hears(["#stargazers"], "direct_message,direct_mention,mention,message_received,ambient", (bot, message) => {
-  const apiUrl = "https://api.github.com/repos/reactioncommerce/reaction";
-  const request = new XMLHttpRequest();
-  request.open("GET", apiUrl, true);
+// /**
+//  * #timezones
+//  * Display current time for all Reaction team members across the world
+//  * Los Angeles, Colorado Springs, Connecticut, Lagos, Nairobi, Manila
+//  */
+// controller.hears(["#timezones", "#currentTime"], "direct_message,direct_mention,mention,message_received,ambient", (bot, message) => {
+//   const baseTime = moment().tz("America/Los_Angeles");
 
-  request.onload = () => {
-    if (request.status >= 200 && request.status < 400) {
-      // Success!
-      const data = JSON.parse(request.responseText);
-      if (data) {
-        if (data.stargazers_count) {
-          var starGazersOutput = data.stargazers_count;
-        } else {
-          const starGazersOuput = "Cannot fetch stargazers";
-        }
-      } else {
-        var starGazersOutput = "Cannot fetch stargazers";
-      }
-      bot.reply(message, `:star: :star: :star2: ${starGazersOutput} :star2: :star: :star:`);
-    } else {
-      // We reached our target server, but it returned an error
-      bot.reply(message, "Cannot fetch stargazers");
-    }
-  };
+//   const americaPacific = `${baseTime.clone().tz("America/Los_Angeles").format("hh:mm A")}:  :flag-us-ca:  Santa Monica / California`;
+//   const americaMountain = `${baseTime.clone().tz("America/Denver").format("hh:mm A")}:  :flag-us-az:  Arizona / :flag-us-co:  Colorado / :flag-us-ut:  Utah`;
+//   const americaCentral = `${baseTime.clone().tz("America/Chicago").format("hh:mm A")}:  :flag-us-la:  Louisiana / :flag-us-wi:  Wisconsin`;
+//   const americaEastern = `${baseTime.clone().tz("America/New_York").format("hh:mm A")}:  :flag-us-ma:  Massachusetts / :flag-us-ny:  New York / :flag-us-oh:  Ohio`;
+//   const lagos = `${baseTime.clone().tz("Africa/Lagos").format("hh:mm A")}:  :flag-de:  Berlin / :flag-ng:  Lagos`;
+//   const lucknow = `${baseTime.clone().tz("Asia/Kolkata").format("hh:mm A")}:  :flag-in:  Lucknow`;
+//   const bangkok = `${baseTime.clone().tz("Asia/Bangkok").format("hh:mm A")}:  :flag-th:  Bangkok`;
+//   const manila = `${baseTime.clone().tz("Asia/Manila").format("hh:mm A")}:  :flag-ph:  Manila`;
 
-  request.onerror = () => {
-    bot.reply(message, "Cannot fetch stargazers");
-  };
-  request.send();
-});
+//   bot.reply(message, "Reaction Team Time Zones");
+//   bot.reply(message, americaPacific);
+//   bot.reply(message, americaMountain);
+//   bot.reply(message, americaCentral);
+//   bot.reply(message, americaEastern);
+//   bot.reply(message, lagos);
+//   bot.reply(message, lucknow);
+//   bot.reply(message, bangkok);
+//   bot.reply(message, manila);
+// });
+
+
+// /**
+//  * #findatime
+//  * Display timezones based on an inputted time
+//  */
+// controller.hears(["#findatime (.*)"], "direct_message,direct_mention,mention,message_received,ambient", (bot, message) => {
+//   moment.tz.setDefault("America/Los_Angeles");
+//   const inputTime = message.text.match(/#findatime (.*)/i);
+//   let time = inputTime[1];
+
+//   const colonCheck = time.search(":");
+
+//   if (colonCheck === -1) {
+//     time = `${time.substring(0, time.length - 2)}:${time.substring(time.length - 2)}`
+//   }
+
+//   if (time.length === 4) {
+//     time = `0${time}`;
+//   }
+
+//   const baseTime = moment(`2018-01-01 ${time}`);
+
+//   const americaPacific = `${baseTime.clone().tz("America/Los_Angeles").format("hh:mm A")}:  :flag-us-ca:  Santa Monica / California`;
+//   const americaMountain = `${baseTime.clone().tz("America/Denver").format("hh:mm A")}:  :flag-us-az:  Arizona / :flag-us-co:  Colorado / :flag-us-ut:  Utah`;
+//   const americaCentral = `${baseTime.clone().tz("America/Chicago").format("hh:mm A")}:  :flag-us-la:  Louisiana / :flag-us-wi:  Wisconsin`;
+//   const americaEastern = `${baseTime.clone().tz("America/New_York").format("hh:mm A")}:  :flag-us-ma:  Massachusetts / :flag-us-ny:  New York / :flag-us-oh:  Ohio`;
+//   const lagos = `${baseTime.clone().tz("Africa/Lagos").format("hh:mm A")}:  :flag-de:  Berlin / :flag-ng:  Lagos`;
+//   const lucknow = `${baseTime.clone().tz("Asia/Kolkata").format("hh:mm A")}:  :flag-in:  Lucknow`;
+//   const bangkok = `${baseTime.clone().tz("Asia/Bangkok").format("hh:mm A")}:  :flag-th:  Bangkok`;
+//   const manila = `${baseTime.clone().tz("Asia/Manila").format("hh:mm A")}:  :flag-ph:  Manila`;
+
+//   bot.reply(message, `Reaction Team times when it's ${time} in Santa Monica`);
+//   bot.reply(message, americaPacific);
+//   bot.reply(message, americaMountain);
+//   bot.reply(message, americaCentral);
+//   bot.reply(message, americaEastern);
+//   bot.reply(message, lagos);
+//   bot.reply(message, lucknow);
+//   bot.reply(message, bangkok);
+//   bot.reply(message, manila);
+// });
+
+
+// /**
+//  * #stargazers
+//  * Retrieve number of stargazers for the Reaction Commerce Github repository
+//  */
+// controller.hears(["#stargazers"], "direct_message,direct_mention,mention,message_received,ambient", (bot, message) => {
+//   const apiUrl = "https://api.github.com/repos/reactioncommerce/reaction";
+//   const request = new XMLHttpRequest();
+//   request.open("GET", apiUrl, true);
+
+//   request.onload = () => {
+//     if (request.status >= 200 && request.status < 400) {
+//       // Success!
+//       const data = JSON.parse(request.responseText);
+//       if (data) {
+//         if (data.stargazers_count) {
+//           var starGazersOutput = data.stargazers_count;
+//         } else {
+//           const starGazersOuput = "Cannot fetch stargazers";
+//         }
+//       } else {
+//         var starGazersOutput = "Cannot fetch stargazers";
+//       }
+//       bot.reply(message, `:star: :star: :star2: ${starGazersOutput} :star2: :star: :star:`);
+//     } else {
+//       // We reached our target server, but it returned an error
+//       bot.reply(message, "Cannot fetch stargazers");
+//     }
+//   };
+
+//   request.onerror = () => {
+//     bot.reply(message, "Cannot fetch stargazers");
+//   };
+//   request.send();
+// });
 
 
 /**
@@ -713,104 +713,104 @@ botReply(["#stillalive"], [
 Helper functions
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 
-/**
- * Distance calculation for #choppertime
- * http://stackoverflow.com/questions/1502590/calculate-distance-between-two-points-in-google-maps-v3
- */
-function getDistance({latA, lngA}, {latB, lngB}) {
+// /**
+//  * Distance calculation for #choppertime
+//  * http://stackoverflow.com/questions/1502590/calculate-distance-between-two-points-in-google-maps-v3
+//  */
+// function getDistance({latA, lngA}, {latB, lngB}) {
 
-  const rad = x => x * Math.PI / 180;
+//   const rad = x => x * Math.PI / 180;
 
-  const R = 6378137; // Earth’s mean radius in meters
+//   const R = 6378137; // Earth’s mean radius in meters
 
-  const dLat = rad(latA - latB);
-  const dLong = rad(lngA - lngB);
+//   const dLat = rad(latA - latB);
+//   const dLong = rad(lngA - lngB);
 
-  const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-    Math.cos(rad(lat)) * Math.cos(rad(lat)) *
-    Math.sin(dLong / 2) * Math.sin(dLong / 2);
+//   const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+//     Math.cos(rad(lat)) * Math.cos(rad(lat)) *
+//     Math.sin(dLong / 2) * Math.sin(dLong / 2);
 
-  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+//   const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 
-  const d = R * c / 1000;
+//   const d = R * c / 1000;
 
-  return d; // returns the distance in kilometers
-}
-
-
-/**
- * Time formatting helper for #choppertime
- */
-function getHHMM(decimalHours) {
-  let output = "";
-  const hours = Math.floor(decimalHours);
-  const minutes = (Math.floor(decimalHours * 60)) - (hours * 60);
-
-  if (hours == 1) {
-    output += "1 hour, ";
-  } else if (hours > 1) {
-    output += `${hours} hours, `;
-  }
-  output += `${minutes} minutes`;
-  return output;
-}
+//   return d; // returns the distance in kilometers
+// }
 
 
-/**
- * Get full team and channel list
- */
-const fullTeamList = [];
-const fullChannelList = [];
+// /**
+//  * Time formatting helper for #choppertime
+//  */
+// function getHHMM(decimalHours) {
+//   let output = "";
+//   const hours = Math.floor(decimalHours);
+//   const minutes = (Math.floor(decimalHours * 60)) - (hours * 60);
 
-function saveSlackInfo({api}) {
-  // Save Slack Users
-  // @ https://api.slack.com/methods/users.list
-  api.users.list({}, (err, response) => {
-    if (response.hasOwnProperty("members") && response.ok) {
-      const total = response.members.length;
-      for (let i = 0; i < total; i++) {
-        const member = response.members[i];
-        fullTeamList.push({
-          name: member.name,
-          id: member.id
-        });
-      }
-    }
-  });
-
-  // Save Slack Channels
-  // @ https://api.slack.com/methods/channels.list
-  api.channels.list({}, (err, response) => {
-    if (response.hasOwnProperty("channels") && response.ok) {
-      const total = response.channels.length;
-      for (let i = 0; i < total; i++) {
-        const channel = response.channels[i];
-        fullChannelList.push({
-          name: channel.name,
-          id: channel.id
-        });
-      }
-    }
-  });
-}
+//   if (hours == 1) {
+//     output += "1 hour, ";
+//   } else if (hours > 1) {
+//     output += `${hours} hours, `;
+//   }
+//   output += `${minutes} minutes`;
+//   return output;
+// }
 
 
-/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Keep Reaction-Bot healthy
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+// /**
+//  * Get full team and channel list
+//  */
+// const fullTeamList = [];
+// const fullChannelList = [];
 
-/**
- * Keep Reaction-Bot active by silently sending a message once per day
- */
-const rule = new schedule.RecurrenceRule();
+// function saveSlackInfo({api}) {
+//   // Save Slack Users
+//   // @ https://api.slack.com/methods/users.list
+//   api.users.list({}, (err, response) => {
+//     if (response.hasOwnProperty("members") && response.ok) {
+//       const total = response.members.length;
+//       for (let i = 0; i < total; i++) {
+//         const member = response.members[i];
+//         fullTeamList.push({
+//           name: member.name,
+//           id: member.id
+//         });
+//       }
+//     }
+//   });
 
-rule.dayOfWeek = [0, new schedule.Range(0, 6)];
-rule.hour = 9;
-rule.minute = 0;
+//   // Save Slack Channels
+//   // @ https://api.slack.com/methods/channels.list
+//   api.channels.list({}, (err, response) => {
+//     if (response.hasOwnProperty("channels") && response.ok) {
+//       const total = response.channels.length;
+//       for (let i = 0; i < total; i++) {
+//         const channel = response.channels[i];
+//         fullChannelList.push({
+//           name: channel.name,
+//           id: channel.id
+//         });
+//       }
+//     }
+//   });
+// }
 
-const schedJob = schedule.scheduleJob(rule, () => {
-  bot.say({
-    text: "I need to be awake!",
-    channel: "ABCDEFGHI"
-  });
-});
+
+// /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+// Keep Reaction-Bot healthy
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+
+// /**
+//  * Keep Reaction-Bot active by silently sending a message once per day
+//  */
+// const rule = new schedule.RecurrenceRule();
+
+// rule.dayOfWeek = [0, new schedule.Range(0, 6)];
+// rule.hour = 9;
+// rule.minute = 0;
+
+// const schedJob = schedule.scheduleJob(rule, () => {
+//   bot.say({
+//     text: "I need to be awake!",
+//     channel: "ABCDEFGHI"
+//   });
+// });
