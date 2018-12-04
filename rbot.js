@@ -37,24 +37,24 @@ if (!process.env.TOKEN) {
 /**
  * Load Botkit
  */
-var Botkit = require("./lib/Botkit.js");
-
+import Botkit from "./lib/Botkit.js";
 
 /**
  * Load NPM dependencies
  */
-var $ = require("jquery");
-var himawari = require("himawari");
-var moment = require("moment-timezone");
-var os = require("os");
-var schedule = require("node-schedule");
-var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
+import $ from "jquery";
+
+import himawari from "himawari";
+import moment from "moment-timezone";
+import os from "os";
+import schedule from "node-schedule";
+import {XMLHttpRequest} from "xmlhttprequest";
 
 
 /**
  * Set Reaction-Bot options
  */
-var controller = Botkit.slackbot({
+const controller = Botkit.slackbot({
   debug: true,
 });
 
@@ -62,9 +62,9 @@ var controller = Botkit.slackbot({
 /**
  * Start Reaction-Bot
  */
-var bot = controller.spawn({
+const bot = controller.spawn({
   token: process.env.TOKEN
-}).startRTM(function (err, bot) {
+}).startRTM((err, bot) => {
   if (err) {
     throw new Error(err);
   }
@@ -77,17 +77,17 @@ var bot = controller.spawn({
  * #bothelp, #bothelp-long
  * Respond with all available hashtags
  */
-controller.hears(["#bothelp", "#bothelp-long"], "direct_message,direct_mention,mention,message_received,ambient", function (bot, message) {
-  var feed = "";
-  var botResponse = bot.botkit.allKeywords;
-  var _response = "```";
+controller.hears(["#bothelp", "#bothelp-long"], "direct_message,direct_mention,mention,message_received,ambient", (bot, message) => {
+  let feed = "";
+  const botResponse = bot.botkit.allKeywords;
+  let _response = "```";
 
   if (message.text == "#bothelp-long") {
     feed = "\n";
   }
 
   for (k in botResponse) {
-    _response += k + "  " + feed;
+    _response += `${k}  ${feed}`;
   }
 
   _response += "```";
@@ -102,43 +102,43 @@ controller.hears(["#bothelp", "#bothelp-long"], "direct_message,direct_mention,m
  * Requires a Google API key to be passed as a session variable during startup
  * MAPS_API=<google-maps-api-key>
  */
-controller.hears(["#drivetime (.*)", "#walktime (.*)", "#biketime (.*)"], "direct_message,direct_mention,mention,message_received,ambient", function (bot, message) {
-  var reactionAddress = "2110+Main+St,+Santa+Monica,+CA+90405";
-  var _hash = message.text.trimLeft();
+controller.hears(["#drivetime (.*)", "#walktime (.*)", "#biketime (.*)"], "direct_message,direct_mention,mention,message_received,ambient", (bot, message) => {
+  const reactionAddress = "2110+Main+St,+Santa+Monica,+CA+90405";
+  let _hash = message.text.trimLeft();
   _hash = _hash.slice(0, message.text.indexOf(" "));
-  var _regExp = new RegExp(_hash + " (.*)", "i");
-  var inputAddress = message.text.match(_regExp);
-  var destinationAddress = inputAddress[1];
-  var encodedDestinationAddress = encodeURIComponent(destinationAddress);
-  var modes = {
+  const _regExp = new RegExp(`${_hash} (.*)`, "i");
+  const inputAddress = message.text.match(_regExp);
+  const destinationAddress = inputAddress[1];
+  const encodedDestinationAddress = encodeURIComponent(destinationAddress);
+  const modes = {
     "#walktime": "walking",
     "#biketime": "bicycling"
   };
-  var attch_text = {
+  const attch_text = {
     "#drivetime": ":car: :bus: :truck: :bus: :car:",
     "#walktime": ":walking: :walking::skin-tone-2: :walking::skin-tone-3: :walking::skin-tone-4: :walking::skin-tone-5:",
     "#biketime": ":bicyclist: :bicyclist::skin-tone-2: :bicyclist::skin-tone-3: :bicyclist::skin-tone-4: :bicyclist::skin-tone-5:"
   };
-  var _error = false;
-  var trafficModel = (_hash == "#drivetime") ? "&traffic_model=best_guess" : "";
-  var currentMode = (modes[_hash]) ? "&mode=" + modes[_hash] : "";
-  var apiKey = process.env.MAPS_API;
-  var apiUrl = "https://maps.googleapis.com/maps/api/directions/json?departure_time=now" + currentMode + trafficModel + "&c&origin=" + reactionAddress + "&destination=" + encodedDestinationAddress + "&key=" + apiKey;
-  var googleMapsUrl = "https://www.google.com/maps/dir/" + reactionAddress + "/" + encodedDestinationAddress;
-  var request = new XMLHttpRequest();
+  let _error = false;
+  const trafficModel = (_hash == "#drivetime") ? "&traffic_model=best_guess" : "";
+  const currentMode = (modes[_hash]) ? `&mode=${modes[_hash]}` : "";
+  const apiKey = process.env.MAPS_API;
+  const apiUrl = `https://maps.googleapis.com/maps/api/directions/json?departure_time=now${currentMode}${trafficModel}&c&origin=${reactionAddress}&destination=${encodedDestinationAddress}&key=${apiKey}`;
+  const googleMapsUrl = `https://www.google.com/maps/dir/${reactionAddress}/${encodedDestinationAddress}`;
+  const request = new XMLHttpRequest();
 
   request.open("GET", apiUrl, true);
 
-  request.onload = function () {
+  request.onload = () => {
     if (request.status >= 200 && request.status < 400) {
       // Success!
-      var data = JSON.parse(request.responseText);
+      const data = JSON.parse(request.responseText);
       driveTime = getDriveTime(data, _hash);
-      var xTime = _hash.slice(1);
-      var driveTimeOutput = xTime + " to " + destinationAddress + " is " + driveTime;
+      const xTime = _hash.slice(1);
+      const driveTimeOutput = `${xTime} to ${destinationAddress} is ${driveTime}`;
 
       // To Do - convert time from googles output (5 hours, 21 mins - 1 hour, 1 minute - 20 minutes) to plain old minutes
-      var driveTimeMinutes = driveTime;
+      const driveTimeMinutes = driveTime;
       // To Do - convert time from googles output (5 hours, 21 mins - 1 hour, 1 minute - 20 minutes) to plain old minutes
 
       if (driveTimeMinutes <= "30") {
@@ -149,35 +149,35 @@ controller.hears(["#drivetime (.*)", "#walktime (.*)", "#biketime (.*)"], "direc
         var driveTimeImages = ["http://i.giphy.com/mrpNRAKIALT5C.gif"];
       }
 
-      var driveTimeImage = driveTimeImages[Math.floor(Math.random() * driveTimeImages.length)];
+      const driveTimeImage = driveTimeImages[Math.floor(Math.random() * driveTimeImages.length)];
 
-      bot.reply(message, "" + driveTimeOutput + " :car: :bus: :bus: :car: " + driveTimeImage + "");
+      bot.reply(message, `${driveTimeOutput} :car: :bus: :bus: :car: ${driveTimeImage}`);
     } else {
       // We reached our target server, but it returned an error
       _error = true;
     }
   };
 
-  request.onerror = function () {
+  request.onerror = () => {
     _error = true;
   };
 
   if (_error) {
-    bot.reply(message, xTime + " to " + destinationAddress + " is currently unknown due to an API error. Hopefully you can see it on Google Maps: " + googleMapsUrl);
+    bot.reply(message, `${xTime} to ${destinationAddress} is currently unknown due to an API error. Hopefully you can see it on Google Maps: ${googleMapsUrl}`);
   }
 
   request.send();
 });
 
-function getDriveTime(data, _hash) {
-  var drivetime;
-  var trafficText = (_hash == "#drivetime") ? ". Traffic is not included in this route." : "";
-  if (data.routes[0]) {
-    if (_hash == "#drivetime" && data.routes[0].legs[0].duration_in_traffic) {
-      driveTime = data.routes[0].legs[0].duration_in_traffic.text;
+function getDriveTime({routes}, _hash) {
+  let drivetime;
+  const trafficText = (_hash == "#drivetime") ? ". Traffic is not included in this route." : "";
+  if (routes[0]) {
+    if (_hash == "#drivetime" && routes[0].legs[0].duration_in_traffic) {
+      driveTime = routes[0].legs[0].duration_in_traffic.text;
     } else {
-      if (data.routes[0].legs[0].duration) {
-        driveTime = data.routes[0].legs[0].duration.text + trafficText;
+      if (routes[0].legs[0].duration) {
+        driveTime = routes[0].legs[0].duration.text + trafficText;
       } else {
         driveTime = "not available. Please try another query.";
       }
@@ -197,25 +197,25 @@ function getDriveTime(data, _hash) {
  * Requires a Google API key to be passed as a session variable during startup
  * MAPS_API=<google-maps-api-key>
  */
-controller.hears(["#choppertime (.*)"], "direct_message,direct_mention,mention,message_received,ambient", function (bot, message) {
+controller.hears(["#choppertime (.*)"], "direct_message,direct_mention,mention,message_received,ambient", (bot, message) => {
   // calculation is done in lattitue / longitude
   reactionCoords = {};
   destCoords = {};
   reactionCoords.lat = "34.006008";
   reactionCoords.lng = "-118.4886012";
-  var inputAddress = message.text.match(/#choppertime (.*)/i);
-  var destinationAddress = inputAddress[1];
-  var encodedDestinationAddress = encodeURIComponent(destinationAddress);
-  var apiKey = process.env.MAPS_API;
+  const inputAddress = message.text.match(/#choppertime (.*)/i);
+  const destinationAddress = inputAddress[1];
+  const encodedDestinationAddress = encodeURIComponent(destinationAddress);
+  const apiKey = process.env.MAPS_API;
   // get destination coords
-  var apiUrl = "https://maps.googleapis.com/maps/api/geocode/json?address=" + encodedDestinationAddress + "&key=" + apiKey;
-  var request = new XMLHttpRequest();
+  const apiUrl = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodedDestinationAddress}&key=${apiKey}`;
+  const request = new XMLHttpRequest();
   request.open("GET", apiUrl, true);
 
-  request.onload = function () {
+  request.onload = () => {
     if (request.status >= 200 && request.status < 400) {
       // Success!
-      var data = JSON.parse(request.responseText);
+      const data = JSON.parse(request.responseText);
       if (data.results[0]) {
         if (data.results[0].geometry.location) {
           destCoords.lat = data.results[0].geometry.location.lat;
@@ -233,22 +233,22 @@ controller.hears(["#choppertime (.*)"], "direct_message,direct_mention,mention,m
           // get a pretty time
           chopperTimeReadable = getHHMM(chopperTimeRaw);
 
-          var chopperTimeOutput = "It would take " + chopperTimeReadable + " for Kode Brian to travel to " + destinationAddress;
+          var chopperTimeOutput = `It would take ${chopperTimeReadable} for Kode Brian to travel to ${destinationAddress}`;
         } else {
-          var chopperTimeOuput = "There was some unknown issue finding the coordinates of your desto.";
+          const chopperTimeOuput = "There was some unknown issue finding the coordinates of your desto.";
         }
       } else {
         var chopperTimeOutput = "No results. Please try another, more specific query.";
       }
-      bot.reply(message, ":helicopter: :kobe: " + chopperTimeOutput + " :kobe: :helicopter:");
+      bot.reply(message, `:helicopter: :kobe: ${chopperTimeOutput} :kobe: :helicopter:`);
     } else {
       // We reached our target server, but it returned an error
-      bot.reply(message, "Choppertime to " + destinationAddress + " is currently unknown due to an API error.");
+      bot.reply(message, `Choppertime to ${destinationAddress} is currently unknown due to an API error.`);
     }
   };
 
-  request.onerror = function () {
-    bot.reply(message, "Choppertime to " + destinationAddress + " is currently unknown due to an API error.");
+  request.onerror = () => {
+    bot.reply(message, `Choppertime to ${destinationAddress} is currently unknown due to an API error.`);
   };
   request.send();
 });
@@ -261,10 +261,10 @@ controller.hears(["#choppertime (.*)"], "direct_message,direct_mention,mention,m
  * HIMAWARI_OUTFILE=<path-to-local-image>
  * HIMAWARI_URL=<url-of-image> node rbot.js
  */
-controller.hears(["#earthnow"], "direct_message,direct_mention,mention,message_received,ambient", function (bot, message) {
+controller.hears(["#earthnow"], "direct_message,direct_mention,mention,message_received,ambient", (bot, message) => {
   bot.reply(message, "generating image from Himawari-8 satellite...");
-  var outfilePath = process.env.HIMAWARI_OUTFILE;
-  var himawariImageUrl = process.env.HIMAWARI_URL;
+  const outfilePath = process.env.HIMAWARI_OUTFILE;
+  const himawariImageUrl = process.env.HIMAWARI_URL;
   himawari({
     zoom: 1,
     date: "latest", // Or new Date() or a date string
@@ -275,17 +275,17 @@ controller.hears(["#earthnow"], "direct_message,direct_mention,mention,message_r
     skipEmpty: true,
     timeout: 30000,
     urls: false,
-    success: function () {
+    success() {
       // added ms to prevent Slack from caching images. Not like the planet"s view is gonna change much :P
-      bot.reply(message, himawariImageUrl + "?ms=" + (new Date()).getMilliseconds());
+      bot.reply(message, `${himawariImageUrl}?ms=${(new Date()).getMilliseconds()}`);
       // process.exit();
     },
-    error: function (err) {
+    error(err) {
       console.log(err);
       bot.reply("Satelite Server is probably down.");
     },
-    chunk: function (info) {
-      console.log(info.outfile + ": " + info.part + "/" + info.total);
+    chunk({outfile, part, total}) {
+      console.log(`${outfile}: ${part}/${total}`);
     }
   });
 });
@@ -296,17 +296,17 @@ controller.hears(["#earthnow"], "direct_message,direct_mention,mention,message_r
  * Display current time for all Reaction team members across the world
  * Los Angeles, Colorado Springs, Connecticut, Lagos, Nairobi, Manila
  */
-controller.hears(["#timezones", "#currentTime"], "direct_message,direct_mention,mention,message_received,ambient", function (bot, message) {
-  var baseTime = moment().tz("America/Los_Angeles");
+controller.hears(["#timezones", "#currentTime"], "direct_message,direct_mention,mention,message_received,ambient", (bot, message) => {
+  const baseTime = moment().tz("America/Los_Angeles");
 
-  var americaPacific = baseTime.clone().tz("America/Los_Angeles").format("hh:mm A") + ":  :flag-us-ca:  Santa Monica / California";
-  var americaMountain = baseTime.clone().tz("America/Denver").format("hh:mm A") + ":  :flag-us-az:  Arizona / :flag-us-co:  Colorado / :flag-us-ut:  Utah";
-  var americaCentral = baseTime.clone().tz("America/Chicago").format("hh:mm A") + ":  :flag-us-la:  Louisiana / :flag-us-wi:  Wisconsin";
-  var americaEastern = baseTime.clone().tz("America/New_York").format("hh:mm A") + ":  :flag-us-ma:  Massachusetts / :flag-us-ny:  New York / :flag-us-oh:  Ohio";
-  var lagos = baseTime.clone().tz("Africa/Lagos").format("hh:mm A") + ":  :flag-de:  Berlin / :flag-ng:  Lagos";
-  var lucknow = baseTime.clone().tz("Asia/Kolkata").format("hh:mm A") + ":  :flag-in:  Lucknow";
-  var bangkok = baseTime.clone().tz("Asia/Bangkok").format("hh:mm A") + ":  :flag-th:  Bangkok";
-  var manila = baseTime.clone().tz("Asia/Manila").format("hh:mm A") + ":  :flag-ph:  Manila";
+  const americaPacific = `${baseTime.clone().tz("America/Los_Angeles").format("hh:mm A")}:  :flag-us-ca:  Santa Monica / California`;
+  const americaMountain = `${baseTime.clone().tz("America/Denver").format("hh:mm A")}:  :flag-us-az:  Arizona / :flag-us-co:  Colorado / :flag-us-ut:  Utah`;
+  const americaCentral = `${baseTime.clone().tz("America/Chicago").format("hh:mm A")}:  :flag-us-la:  Louisiana / :flag-us-wi:  Wisconsin`;
+  const americaEastern = `${baseTime.clone().tz("America/New_York").format("hh:mm A")}:  :flag-us-ma:  Massachusetts / :flag-us-ny:  New York / :flag-us-oh:  Ohio`;
+  const lagos = `${baseTime.clone().tz("Africa/Lagos").format("hh:mm A")}:  :flag-de:  Berlin / :flag-ng:  Lagos`;
+  const lucknow = `${baseTime.clone().tz("Asia/Kolkata").format("hh:mm A")}:  :flag-in:  Lucknow`;
+  const bangkok = `${baseTime.clone().tz("Asia/Bangkok").format("hh:mm A")}:  :flag-th:  Bangkok`;
+  const manila = `${baseTime.clone().tz("Asia/Manila").format("hh:mm A")}:  :flag-ph:  Manila`;
 
   bot.reply(message, "Reaction Team Time Zones");
   bot.reply(message, americaPacific);
@@ -324,33 +324,33 @@ controller.hears(["#timezones", "#currentTime"], "direct_message,direct_mention,
  * #findatime
  * Display timezones based on an inputted time
  */
-controller.hears(["#findatime (.*)"], "direct_message,direct_mention,mention,message_received,ambient", function (bot, message) {
+controller.hears(["#findatime (.*)"], "direct_message,direct_mention,mention,message_received,ambient", (bot, message) => {
   moment.tz.setDefault("America/Los_Angeles");
-  var inputTime = message.text.match(/#findatime (.*)/i);
-  var time = inputTime[1];
+  const inputTime = message.text.match(/#findatime (.*)/i);
+  let time = inputTime[1];
 
-  var colonCheck = time.search(":");
+  const colonCheck = time.search(":");
 
   if (colonCheck === -1) {
-    time = time.substring(0, time.length - 2) + ":" + time.substring(time.length - 2)
+    time = `${time.substring(0, time.length - 2)}:${time.substring(time.length - 2)}`
   }
 
   if (time.length === 4) {
-    time = "0" + time;
+    time = `0${time}`;
   }
 
-  var baseTime = moment("2018-01-01 " + time);
+  const baseTime = moment(`2018-01-01 ${time}`);
 
-  var americaPacific = baseTime.clone().tz("America/Los_Angeles").format("hh:mm A") + ":  :flag-us-ca:  Santa Monica / California";
-  var americaMountain = baseTime.clone().tz("America/Denver").format("hh:mm A") + ":  :flag-us-az:  Arizona / :flag-us-co:  Colorado / :flag-us-ut:  Utah";
-  var americaCentral = baseTime.clone().tz("America/Chicago").format("hh:mm A") + ":  :flag-us-la:  Louisiana / :flag-us-wi:  Wisconsin";
-  var americaEastern = baseTime.clone().tz("America/New_York").format("hh:mm A") + ":  :flag-us-ma:  Massachusetts / :flag-us-ny:  New York / :flag-us-oh:  Ohio";
-  var lagos = baseTime.clone().tz("Africa/Lagos").format("hh:mm A") + ":  :flag-de:  Berlin / :flag-ng:  Lagos";
-  var lucknow = baseTime.clone().tz("Asia/Kolkata").format("hh:mm A") + ":  :flag-in:  Lucknow";
-  var bangkok = baseTime.clone().tz("Asia/Bangkok").format("hh:mm A") + ":  :flag-th:  Bangkok";
-  var manila = baseTime.clone().tz("Asia/Manila").format("hh:mm A") + ":  :flag-ph:  Manila";
+  const americaPacific = `${baseTime.clone().tz("America/Los_Angeles").format("hh:mm A")}:  :flag-us-ca:  Santa Monica / California`;
+  const americaMountain = `${baseTime.clone().tz("America/Denver").format("hh:mm A")}:  :flag-us-az:  Arizona / :flag-us-co:  Colorado / :flag-us-ut:  Utah`;
+  const americaCentral = `${baseTime.clone().tz("America/Chicago").format("hh:mm A")}:  :flag-us-la:  Louisiana / :flag-us-wi:  Wisconsin`;
+  const americaEastern = `${baseTime.clone().tz("America/New_York").format("hh:mm A")}:  :flag-us-ma:  Massachusetts / :flag-us-ny:  New York / :flag-us-oh:  Ohio`;
+  const lagos = `${baseTime.clone().tz("Africa/Lagos").format("hh:mm A")}:  :flag-de:  Berlin / :flag-ng:  Lagos`;
+  const lucknow = `${baseTime.clone().tz("Asia/Kolkata").format("hh:mm A")}:  :flag-in:  Lucknow`;
+  const bangkok = `${baseTime.clone().tz("Asia/Bangkok").format("hh:mm A")}:  :flag-th:  Bangkok`;
+  const manila = `${baseTime.clone().tz("Asia/Manila").format("hh:mm A")}:  :flag-ph:  Manila`;
 
-  bot.reply(message, "Reaction Team times when it's " + time + " in Santa Monica");
+  bot.reply(message, `Reaction Team times when it's ${time} in Santa Monica`);
   bot.reply(message, americaPacific);
   bot.reply(message, americaMountain);
   bot.reply(message, americaCentral);
@@ -366,32 +366,32 @@ controller.hears(["#findatime (.*)"], "direct_message,direct_mention,mention,mes
  * #stargazers
  * Retrieve number of stargazers for the Reaction Commerce Github repository
  */
-controller.hears(["#stargazers"], "direct_message,direct_mention,mention,message_received,ambient", function (bot, message) {
-  var apiUrl = "https://api.github.com/repos/reactioncommerce/reaction";
-  var request = new XMLHttpRequest();
+controller.hears(["#stargazers"], "direct_message,direct_mention,mention,message_received,ambient", (bot, message) => {
+  const apiUrl = "https://api.github.com/repos/reactioncommerce/reaction";
+  const request = new XMLHttpRequest();
   request.open("GET", apiUrl, true);
 
-  request.onload = function () {
+  request.onload = () => {
     if (request.status >= 200 && request.status < 400) {
       // Success!
-      var data = JSON.parse(request.responseText);
+      const data = JSON.parse(request.responseText);
       if (data) {
         if (data.stargazers_count) {
           var starGazersOutput = data.stargazers_count;
         } else {
-          var starGazersOuput = "Cannot fetch stargazers";
+          const starGazersOuput = "Cannot fetch stargazers";
         }
       } else {
         var starGazersOutput = "Cannot fetch stargazers";
       }
-      bot.reply(message, ":star: :star: :star2: " + starGazersOutput + " :star2: :star: :star:");
+      bot.reply(message, `:star: :star: :star2: ${starGazersOutput} :star2: :star: :star:`);
     } else {
       // We reached our target server, but it returned an error
       bot.reply(message, "Cannot fetch stargazers");
     }
   };
 
-  request.onerror = function () {
+  request.onerror = () => {
     bot.reply(message, "Cannot fetch stargazers");
   };
   request.send();
@@ -406,8 +406,8 @@ controller.hears(["#stargazers"], "direct_message,direct_mention,mention,message
  * @param {object} responses - Responses sent back to Slack
  */
 function botReply(hashtags, responses) {
-  controller.hears(hashtags, "direct_message,direct_mention,mention,message_received,ambient", function (bot, message) {
-    var botResponse = responses[Math.floor(Math.random() * responses.length)];
+  controller.hears(hashtags, "direct_message,direct_mention,mention,message_received,ambient", (bot, message) => {
+    const botResponse = responses[Math.floor(Math.random() * responses.length)];
     bot.reply(message, botResponse);
   });
 }
@@ -717,24 +717,22 @@ Helper functions
  * Distance calculation for #choppertime
  * http://stackoverflow.com/questions/1502590/calculate-distance-between-two-points-in-google-maps-v3
  */
-function getDistance(startCoords, endCoords) {
+function getDistance({lat, lng}, {lat, lng}) {
 
-  var rad = function (x) {
-    return x * Math.PI / 180;
-  };
+  const rad = x => x * Math.PI / 180;
 
-  var R = 6378137; // Earth’s mean radius in meters
+  const R = 6378137; // Earth’s mean radius in meters
 
-  var dLat = rad(endCoords.lat - startCoords.lat);
-  var dLong = rad(endCoords.lng - startCoords.lng);
+  const dLat = rad(lat - lat);
+  const dLong = rad(lng - lng);
 
-  var a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-    Math.cos(rad(startCoords.lat)) * Math.cos(rad(endCoords.lat)) *
+  const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+    Math.cos(rad(lat)) * Math.cos(rad(lat)) *
     Math.sin(dLong / 2) * Math.sin(dLong / 2);
 
-  var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 
-  var d = R * c / 1000;
+  const d = R * c / 1000;
 
   return d; // returns the distance in kilometers
 }
@@ -744,16 +742,16 @@ function getDistance(startCoords, endCoords) {
  * Time formatting helper for #choppertime
  */
 function getHHMM(decimalHours) {
-  var output = "";
-  var hours = Math.floor(decimalHours);
-  var minutes = (Math.floor(decimalHours * 60)) - (hours * 60);
+  let output = "";
+  const hours = Math.floor(decimalHours);
+  const minutes = (Math.floor(decimalHours * 60)) - (hours * 60);
 
   if (hours == 1) {
     output += "1 hour, ";
   } else if (hours > 1) {
-    output += hours + " hours, ";
+    output += `${hours} hours, `;
   }
-  output += minutes + " minutes";
+  output += `${minutes} minutes`;
   return output;
 }
 
@@ -761,17 +759,17 @@ function getHHMM(decimalHours) {
 /**
  * Get full team and channel list
  */
-var fullTeamList = [];
-var fullChannelList = [];
+const fullTeamList = [];
+const fullChannelList = [];
 
-function saveSlackInfo(_bot) {
+function saveSlackInfo({api}) {
   // Save Slack Users
   // @ https://api.slack.com/methods/users.list
-  _bot.api.users.list({}, function (err, response) {
+  api.users.list({}, (err, response) => {
     if (response.hasOwnProperty("members") && response.ok) {
-      var total = response.members.length;
-      for (var i = 0; i < total; i++) {
-        var member = response.members[i];
+      const total = response.members.length;
+      for (let i = 0; i < total; i++) {
+        const member = response.members[i];
         fullTeamList.push({
           name: member.name,
           id: member.id
@@ -782,11 +780,11 @@ function saveSlackInfo(_bot) {
 
   // Save Slack Channels
   // @ https://api.slack.com/methods/channels.list
-  _bot.api.channels.list({}, function (err, response) {
+  api.channels.list({}, (err, response) => {
     if (response.hasOwnProperty("channels") && response.ok) {
-      var total = response.channels.length;
-      for (var i = 0; i < total; i++) {
-        var channel = response.channels[i];
+      const total = response.channels.length;
+      for (let i = 0; i < total; i++) {
+        const channel = response.channels[i];
         fullChannelList.push({
           name: channel.name,
           id: channel.id
@@ -804,13 +802,13 @@ Keep Reaction-Bot healthy
 /**
  * Keep Reaction-Bot active by silently sending a message once per day
  */
-var rule = new schedule.RecurrenceRule();
+const rule = new schedule.RecurrenceRule();
 
 rule.dayOfWeek = [0, new schedule.Range(0, 6)];
 rule.hour = 9;
 rule.minute = 0;
 
-var schedJob = schedule.scheduleJob(rule, function () {
+const schedJob = schedule.scheduleJob(rule, () => {
   bot.say({
     text: "I need to be awake!",
     channel: "ABCDEFGHI"
