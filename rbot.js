@@ -37,7 +37,7 @@ if (!process.env.TOKEN) {
 /**
  * Load Botkit
  */
-import Botkit from "./lib/Botkit.js";
+import Botkit from "../lib/Botkit.js";
 
 /**
  * Load NPM dependencies
